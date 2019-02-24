@@ -18,9 +18,33 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+import org.beangle.data.orm.MappingModule
 
-class Session extends LongId with Named with DateRange {
+class DefaultMapping extends MappingModule {
 
+  def binding(): Unit = {
+    bind[Discipline]
+    bind[Member]
+    bind[Project].on(e => declare(
+      e.members is depends("project")))
+
+    bind[Intro].on(e => declare(
+      e.summary is length(500),
+      e.innovation is length(200),
+      e.product is length(200)))
+
+    bind[ProjectCategory]
+    bind[ProjectLevel]
+    bind[ProjectState]
+
+    bind[Session]
+
+    bind[Section].on(e => declare(
+      e.children is depends("parent"),
+      e.name is length(100),
+      e.remark is length(100)))
+
+    bind[Template].on(e => declare(
+      e.sections is depends("template")))
+  }
 }

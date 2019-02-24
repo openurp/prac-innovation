@@ -19,8 +19,18 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+import org.beangle.data.model.pojo.Hierarchical
+import org.beangle.data.model.pojo.Remark
 
-class Session extends LongId with Named with DateRange {
+class Section extends LongId with Hierarchical[Section] with Remark {
+
+  /**项目模板*/
+  var template: Template = _
+
+  /**名称*/
+  var name: String = _
+
+  /**最大长度*/
+  var maxLength: Int = _
 
 }

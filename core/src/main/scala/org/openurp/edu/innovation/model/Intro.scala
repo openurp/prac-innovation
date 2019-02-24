@@ -18,9 +18,18 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+class Intro {
 
-class Session extends LongId with Named with DateRange {
+  /**项目*/
+  var project: Project = _
+
+  /**项目简介*/
+  var summary: String = _
+
+  /**创新点和难点*/
+  var innovation: String = _
+
+  /**预期成果*/
+  var product: String = _
 
 }

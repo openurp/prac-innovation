@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.openurp.edu.innovation.web
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+import org.beangle.cdi.bind.BindModule
 
-class Session extends LongId with Named with DateRange {
+class DefaultModule extends BindModule {
 
+  protected override def binding() {
+
+  }
 }

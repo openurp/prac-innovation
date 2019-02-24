@@ -19,8 +19,11 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+import org.beangle.data.model.pojo.Named
+import org.beangle.commons.collection.Collections
+import scala.collection.mutable.Buffer
 
-class Session extends LongId with Named with DateRange {
+class Template extends LongId with Named {
 
+  var sections: Buffer[Section] = Collections.newBuffer[Section]
 }
