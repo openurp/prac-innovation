@@ -19,26 +19,20 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.data.model.pojo.Named
+import org.beangle.data.model.pojo.Updated
 
-class Member extends LongId with Remark {
-
-  var std: Student = _
-
+class Material extends LongId with Updated {
   var project: Project = _
+  var stageType: StageType = _
+  var attachment: Attachment = _
+  var fileName: String = _
 
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
+  def this(project: Project, stageType: StageType) {
     this()
     this.project = project
-    this.std = std
+    this.stageType = stageType
+    this.attachment = new Attachment
+    project.materials += (this)
   }
 }

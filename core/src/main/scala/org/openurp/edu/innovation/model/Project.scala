@@ -18,21 +18,23 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.TemporalOn
 import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.{ Remark, TemporalOn }
 import org.openurp.base.model.Department
-import org.openurp.base.model.User
+import org.openurp.code.edu.model.Discipline
+import org.openurp.edu.base.model.Teacher
+
 /**
  * 项目
  */
-class Project extends LongId with TemporalOn {
+class Project extends LongId with TemporalOn with Remark {
 
   /** 项目编号 */
   var code: Option[String] = _
 
   /**批次*/
-  var session: Session = _
+  var batch: Batch = _
 
   /**项目名称*/
   var title: String = _
@@ -40,11 +42,14 @@ class Project extends LongId with TemporalOn {
   /**成员*/
   var members = Collections.newBuffer[Member]
 
+  /**材料*/
+  var materials = Collections.newBuffer[Material]
+
   /**院系*/
   var department: Department = _
 
   /**申请人*/
-  var manager: Member = _
+  var manager: Option[Member] = None
 
   /**项目级别*/
   var level: Option[ProjectLevel] = None
@@ -56,11 +61,19 @@ class Project extends LongId with TemporalOn {
   var discipline: Discipline = _
 
   /**指导老师*/
-  var teachers = Collections.newBuffer[User]
+  var instructors = Collections.newBuffer[Teacher]
 
   /**状态*/
   var state: ProjectState = _
 
   /**简介*/
-  var intro: Intro = _
+  var intro: Option[Intro] = None
+
+  /**经费*/
+  var funds: Int = _
+
+  def closureMaterial: Option[Material] = {
+    materials.find(_.stageType.id == StageType.Closure)
+  }
+
 }

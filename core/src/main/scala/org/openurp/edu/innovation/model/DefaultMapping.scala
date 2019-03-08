@@ -19,25 +19,36 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.orm.MappingModule
+import org.beangle.data.orm.IdGenerator
 
 class DefaultMapping extends MappingModule {
 
   def binding(): Unit = {
-    bind[Discipline]
+    defaultIdGenerator(IdGenerator.AutoIncrement)
+    defaultCache("openurp.innovation", "read-write")
+
     bind[Member]
+
     bind[Project].on(e => declare(
-      e.members is depends("project")))
+      e.members is depends("project"),
+      e.materials is depends("project"),
+      e.instructors is ordered))
 
     bind[Intro].on(e => declare(
       e.summary is length(500),
-      e.innovation is length(200),
-      e.product is length(200)))
+      e.innovation is length(300),
+      e.product is length(300)))
 
     bind[ProjectCategory]
     bind[ProjectLevel]
     bind[ProjectState]
 
-    bind[Session]
+    bind[Batch].on(e => declare(
+      e.stages is depends("batch")))
+
+    bind[Stage]
+
+    bind[StageType]
 
     bind[Section].on(e => declare(
       e.children is depends("parent"),
@@ -46,5 +57,15 @@ class DefaultMapping extends MappingModule {
 
     bind[Template].on(e => declare(
       e.sections is depends("template")))
+
+    bind[Material].on(e => declare(
+      e.fileName is length(200)))
+
+    bind[Attachment].on(e => declare(
+      e.content is lob,
+      e.fileName is length(200)))
+
+    bind[Closure].on(e => declare(
+      e.exemptionReason is length(200)))
   }
 }

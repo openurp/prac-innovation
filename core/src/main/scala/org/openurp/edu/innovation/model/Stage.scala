@@ -18,27 +18,19 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.model.LongId
+import org.beangle.data.model.IntId
+import org.beangle.data.model.pojo.{ DateRange, Named }
 import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import java.time.LocalDate
 
-class Member extends LongId with Remark {
+class Stage extends IntId with DateRange with Remark {
 
-  var std: Student = _
+  var stageType: StageType = _
 
-  var project: Project = _
+  var batch: Batch = _
 
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
+  def intime: Boolean = {
+    val now = LocalDate.now
+    !endOn.isBefore(now) && !now.isBefore(beginOn)
   }
 }

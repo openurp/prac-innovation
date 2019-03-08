@@ -16,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.openurp.edu.innovation.student.web.action
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Named,DateRange}
+import org.beangle.webmvc.api.action.ActionSupport
 
-class Session extends LongId with Named with DateRange {
+class ProjectAction extends ActionSupport{
 
 }

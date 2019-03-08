@@ -15,6 +15,7 @@
   <modules>
     <module>core</module>
 	<module>adminapp</module>
+	<module>studentapp</module>
   </modules>
 
   <properties>

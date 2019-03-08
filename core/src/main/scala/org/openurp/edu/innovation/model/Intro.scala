@@ -18,7 +18,9 @@
  */
 package org.openurp.edu.innovation.model
 
-class Intro {
+import org.beangle.data.model.LongId
+
+class Intro extends LongId {
 
   /**项目*/
   var project: Project = _

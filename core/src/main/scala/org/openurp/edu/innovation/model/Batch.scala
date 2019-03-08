@@ -19,26 +19,20 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.data.model.pojo.{ Named, DateRange }
+import org.beangle.data.model.IntId
+import org.beangle.commons.collection.Collections
+import scala.collection.mutable.Buffer
 
-class Member extends LongId with Remark {
+class Batch extends IntId with Named with DateRange {
 
-  var std: Student = _
+  /**是否归档*/
+  var archived: Boolean = _
 
-  var project: Project = _
+  var stages: Buffer[Stage] = Collections.newBuffer[Stage]
 
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
+  def getStage(stageType: StageType): Option[Stage] = {
+    stages.find(_.stageType == stageType)
   }
+
 }

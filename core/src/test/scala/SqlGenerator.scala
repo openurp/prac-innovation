@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+import org.beangle.commons.lang.SystemInfo
+import org.beangle.data.orm.tool.DdlGenerator
 
-import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{ Named, Coded }
-
-class Discipline extends IntId with Named with Coded {
-
+object SqlGenerator {
+  def main(args:Array[String]){
+    DdlGenerator.main(Array("PostgreSQL",SystemInfo.tmpDir,"zh_CN"))
+    println(SystemInfo.tmpDir)
+  }
 }
