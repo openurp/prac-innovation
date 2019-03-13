@@ -19,6 +19,7 @@
       [@b.textfields names="student;学生"/]
       [@b.select style="width:100px" name="closure.project.category.id" label="项目类型" items=projectCategories empty="..." /]
       [@b.select style="width:100px" name="closure.project.department.id" label="所属部门" items=departments empty="..." /]
+      [@b.select style="width:100px" name="need_audit" label="免答辩" items={'1':'待审核','0':'已审核'} empty="..." /]
       <input type="hidden" name="orderBy" value="closure.project.code"/>
     [/@]
     </td>

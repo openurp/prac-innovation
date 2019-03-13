@@ -19,17 +19,24 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Updated
 
 /**
  * 项目结项
  */
-class Closure extends LongId {
+class Closure extends LongId with Updated{
   var project: Project = _
+  
   var applyExemptionReply: Boolean = _
+  
   var exemptionReason: Option[String] = None
+  
   var exemptionConfirmed: Option[Boolean] = None
-  var replyScore: Option[String] = None
-
+  
+  var applyRejectComment: Option[String] = None
+  
+  var replyScore: Option[Int] = None
+  
   def this(project: Project) {
     this()
     this.project = project

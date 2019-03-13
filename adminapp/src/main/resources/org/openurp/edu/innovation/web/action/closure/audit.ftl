@@ -17,6 +17,7 @@
     [@b.field  label="结项材料"][@b.a href="!attachment?attachment.id=${closure.project.closureMaterial.id}" target="_blank" title="下载结项材料"]${closure.project.closureMaterial.fileName}[/@][/@]
     [#if closure.applyExemptionReply]
     [@b.radios label="是否同意免答辩" name="closure.exemptionConfirmed" value=(closure.exemptionConfirmed)!false items="1:common.yes,0:common.no"/]
+    [@b.textfield name="closure.applyRejectComment" label="不同意原因" value="${closure.applyRejectComment!}" required="false" maxlength="100" style="width:200px"/]
     [/#if]
     [@b.formfoot]
       <input type="hidden" name="closure.id" value="${closure.id}"/>

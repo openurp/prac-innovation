@@ -53,22 +53,39 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
     val closureQuery = OqlBuilder.from(classOf[Closure], "closure").where("closure.project=:project", project)
     put("closures", entityDao.search(closureQuery))
     put("closureStage", new StageType(StageType.Closure))
+    put("applyExemptionReplyStage", new StageType(StageType.ApplyExemptionReply))
     forward()
   }
 
   def saveClosure(): View = {
     val projectId = longId("project")
     val project = entityDao.get(classOf[Project], projectId)
-    if (isIntime(project)) {
+    if (isIntime(project, StageType.Closure)) {
       val closureStage = new StageType(StageType.Closure)
       val closure =
         getId("closure", classOf[Long]) match {
           case None     => new Closure(project)
           case Some(id) => entityDao.get(classOf[Closure], id)
         }
+      val originalExceptionReply = closure.applyExemptionReply
       PopulateHelper.populate(closure, classOf[Closure].getName, "closure")
-      if (!closure.applyExemptionReply) {
-        closure.exemptionReason = null
+      //如果不在免答辩的申请时间内，则恢复原来的值
+      if (!isIntime(project, StageType.ApplyExemptionReply)) {
+        if (originalExceptionReply) {
+          closure.applyExemptionReply = closure.exemptionConfirmed.getOrElse(false)
+        } else {
+          closure.applyExemptionReply = originalExceptionReply
+        }
+      }
+      if (closure.applyExemptionReply) {
+        if (!closure.exemptionConfirmed.getOrElse(false)) {
+          closure.applyRejectComment = None
+          closure.exemptionConfirmed = None
+        }
+      } else {
+        closure.exemptionConfirmed = None
+        closure.applyRejectComment = None
+        closure.exemptionReason = None
       }
       val parts = getAll("attachment", classOf[Part])
       if (parts.size > 0 && parts.head.getSize > 0) {
@@ -86,6 +103,7 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
         attachment.merge(Attachment(part.getSubmittedFileName, part.getInputStream))
         entityDao.saveOrUpdate(attachment)
       }
+      closure.updatedAt = Instant.now
       entityDao.saveOrUpdate(project, closure)
       redirect("index", "保存成功")
     } else {
@@ -103,8 +121,8 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
     MimeTypes.getMimeType(Strings.substringAfterLast(fileName, "."), MimeTypes.ApplicationOctetStream).toString
   }
 
-  private def isIntime(project: Project): Boolean = {
-    val closureStage = new StageType(StageType.Closure)
+  private def isIntime(project: Project, stageTypeId: Int): Boolean = {
+    val closureStage = new StageType(stageTypeId)
     project.batch.getStage(closureStage) match {
       case None        => false
       case Some(stage) => stage.intime

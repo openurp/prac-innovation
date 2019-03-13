@@ -12,6 +12,7 @@
       [@b.select style="width:100px" name="project.category.id" label="项目类型" items=projectCategories empty="..." /]
       [@b.select style="width:100px" name="project.department.id" label="所属部门" items=departments empty="..." /]
       [@b.select style="width:100px" name="project.level.id" label="级别" items=projectLevels empty="..." /]
+      [@b.select style="width:100px" name="closure.project.state.id" label="状态" items=projectStates empty="..." /]
       <input type="hidden" name="orderBy" value="project.code"/>
     [/@]
     </td>

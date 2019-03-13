@@ -31,6 +31,8 @@ import org.openurp.base.model.Department
 import org.openurp.edu.innovation.model.ProjectCategory
 import org.openurp.edu.innovation.model.Batch
 import org.openurp.edu.innovation.model.StageType
+import org.openurp.edu.innovation.model.Material
+import org.openurp.edu.innovation.model.Project
 
 class ClosureAction extends RestfulAction[Closure] {
 
@@ -43,6 +45,15 @@ class ClosureAction extends RestfulAction[Closure] {
     put("closureStage", new StageType(StageType.Closure))
   }
 
+  protected override def getQueryBuilder(): OqlBuilder[Closure] = {
+    val builder = super.getQueryBuilder()
+    getBoolean("need_audit") foreach { m =>
+      builder.where(
+        "(closure.applyExemptionReply=true and closure.exemptionConfirmed is " + (if (m) "" else "not") + " null)")
+    }
+    builder
+  }
+
   @ignore
   protected override def removeAndRedirect(entities: Seq[Closure]): View = {
     val attachments = entities.map(_.project.closureMaterial).flatten.map(_.attachment)
@@ -51,9 +62,18 @@ class ClosureAction extends RestfulAction[Closure] {
   }
 
   def attachment(): View = {
-    val attachment = entityDao.get(classOf[Attachment], longId("attachment"))
-    Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-      attachment.fileName)
+    val materials = entityDao.findBy(classOf[Material], "project.id", getLong("project.id"))
+    if (materials.isEmpty) {
+      null
+    } else {
+      materials.find(_.stageType.id == StageType.Closure) match {
+        case Some(material) =>
+          val attachment = material.attachment
+          Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
+            attachment.fileName)
+        case None => null
+      }
+    }
   }
 
   def audit(): View = {

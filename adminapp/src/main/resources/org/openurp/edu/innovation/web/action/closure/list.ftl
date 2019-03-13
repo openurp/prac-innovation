@@ -8,7 +8,7 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="11%" property="project.code" title="编号"/]
-    [@b.col width="30%" property="project.title" title="名称"][@b.a href="!attachment?attachment.id=${closure.project.closureMaterial.id}" target="_blank" title="下载结项材料"]${closure.project.title}[/@][/@]
+    [@b.col width="30%" property="project.title" title="名称"][@b.a href="!attachment?project.id=${closure.project.id}" target="_blank" title="下载结项材料"]${closure.project.title}[/@][/@]
     [@b.col width="8%" property="project.manager.std.user.name" title="负责人"]
       [#if closure.project.members?size>1]
       <span title="拟参加${closure.project.members?size}人">${(closure.project.manager.std.user.name)!}<sup>${closure.project.members?size}</sup></span>
@@ -23,7 +23,7 @@
       [#if closure.applyExemptionReply]<span title="${closure.exemptionReason!}" style="color:red">是 [#if !(closure.exemptionConfirmed??)]未审核[#elseif !closure.exemptionConfirmed]未通过[/#if] </span>[#else]否[/#if]
     [/@]
     [@b.col width="7%" property="replyScore" title="答辩成绩"/]
-    [@b.col width="5%" title="附件"][@b.a href="!attachment?attachment.id=${closure.project.closureMaterial.id}" target="_blank" title="下载结项材料"]下载[/@][/@]
+    [@b.col width="5%" title="附件"][@b.a href="!attachment?project.id=${closure.project.id}" target="_blank" title="下载结项材料"]下载[/@][/@]
   [/@]
   [/@]
 [@b.foot/]

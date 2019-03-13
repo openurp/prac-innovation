@@ -24,6 +24,9 @@ import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.edu.innovation.model.{ Batch, StageType }
 import org.openurp.edu.innovation.model.Stage
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.LocalDateTime
+import java.time.Instant
 
 class BatchAction extends RestfulAction[Batch] {
 
@@ -47,13 +50,13 @@ class BatchAction extends RestfulAction[Batch] {
         }
 
       var i = 0
-      getDate("stageType" + st.id + ".beginOn") foreach { beginOn =>
-        stage.beginOn = beginOn
+      getDateTime("stageType" + st.id + ".beginAt") foreach { beginAt =>
+        stage.beginAt = beginAt.atZone(ZoneId.systemDefault).toInstant
         i += 1
       }
 
-      getDate("stageType" + st.id + ".endOn") foreach { endOn =>
-        stage.endOn = endOn
+      getDateTime("stageType" + st.id + ".endAt") foreach { endAt =>
+        stage.endAt = endAt.atZone(ZoneId.systemDefault).toInstant
         i += 1
       }
 
@@ -63,11 +66,11 @@ class BatchAction extends RestfulAction[Batch] {
     }
 
     if (!entity.stages.isEmpty) {
-      val dateOrdering = new Ordering[LocalDate]() {
-        def compare(a: LocalDate, b: LocalDate) = a.compareTo(b)
+      val dateOrdering = new Ordering[Instant]() {
+        def compare(a: Instant, b: Instant) = a.compareTo(b)
       }
-      entity.beginOn = entity.stages.map(_.beginOn).min(dateOrdering)
-      entity.endOn = entity.stages.map(_.endOn).max(dateOrdering)
+      entity.beginOn = LocalDateTime.ofInstant(entity.stages.map(_.beginAt).min(dateOrdering), ZoneId.systemDefault).toLocalDate
+      entity.endOn = LocalDateTime.ofInstant(entity.stages.map(_.endAt).max(dateOrdering), ZoneId.systemDefault).toLocalDate
     }
     super.saveAndRedirect(entity)
   }

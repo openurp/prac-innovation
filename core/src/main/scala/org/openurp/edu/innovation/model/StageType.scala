@@ -21,12 +21,14 @@ package org.openurp.edu.innovation.model
 import org.beangle.data.model.IntId
 import org.beangle.data.model.pojo.{ Coded, Named }
 import org.beangle.data.model.pojo.TemporalOn
+import org.beangle.data.model.pojo.Hierarchical
 
 object StageType {
   val Closure = 3
+  val ApplyExemptionReply = 4
 }
 
-class StageType extends IntId with Named with Coded with TemporalOn {
+class StageType extends IntId with Named with Coded with TemporalOn with Hierarchical[StageType] {
 
   def this(id: Int) {
     this()

@@ -4,11 +4,11 @@
 [@b.tabs]
   [@b.form theme="list" action=b.rest.save(batch)]
     [@b.textfield name="batch.name" label="名称" value="${batch.name!}" required="true" maxlength="80"/]
-    [#list stageTypes as stageType]
+    [#list stageTypes?sort_by('indexno') as stageType]
      [#assign stage=batch.getStage(stageType)!/]
     [@b.startend label=stageType.name
-      name="stageType"+stageType.id+".beginOn,stageType"+stageType.id+".endOn" required="false,false"
-      start=(stage.beginOn)! end=(stage.endOn)! format="date"/]
+      name="stageType"+stageType.id+".beginAt,stageType"+stageType.id+".endAt" required="false,false"
+      start=(stage.beginAt)! end=(stage.endAt)! format="datetime" style="width:150px"/]
     [/#list]
     [@b.radios label="是否归档"  name="batch.archived" value=batch.archived items="1:common.yes,0:common.no"/]
     [@b.formfoot]

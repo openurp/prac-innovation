@@ -22,15 +22,17 @@ import org.beangle.data.model.IntId
 import org.beangle.data.model.pojo.{ DateRange, Named }
 import org.beangle.data.model.pojo.Remark
 import java.time.LocalDate
+import org.beangle.data.model.pojo.InstantRange
+import java.time.Instant
 
-class Stage extends IntId with DateRange with Remark {
+class Stage extends IntId with InstantRange with Remark {
 
   var stageType: StageType = _
 
   var batch: Batch = _
 
   def intime: Boolean = {
-    val now = LocalDate.now
-    !endOn.isBefore(now) && !now.isBefore(beginOn)
+    val now = Instant.now
+    !endAt.isBefore(now) && !now.isBefore(beginAt)
   }
 }

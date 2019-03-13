@@ -20,11 +20,28 @@
       [@b.field  label="申请免答辩"]${closure.exemptionReason!} <span class="badge">审核通过</span>[/@]
       [@b.field  label="结项材料"][#list project.materials as m][#if m.stageType==closureStage]${m.fileName}[/#if][/#list][/@]
     [#else]
-      [@b.radios label="申请免答辩" id="applyExemptionReply" name="closure.applyExemptionReply" value=(closure.applyExemptionReply)!false items="1:common.yes,0:common.no"/]
-      [@b.textfield label="免答辩理由" name="closure.exemptionReason" style="width:400px" id="exemptionReason" value=(closure.exemptionReason)!/]
+
+      [#assign applyStage=project.batch.getStage(applyExemptionReplyStage)/]
+      [#if applyStage?? && applyStage.intime]
+       [@b.radios label="申请免答辩" id="applyExemptionReply" name="closure.applyExemptionReply" value=(closure.applyExemptionReply)!false items="1:common.yes,0:common.no"/]
+       [@b.textfield label="免答辩理由" name="closure.exemptionReason" style="width:400px" id="exemptionReason" value=(closure.exemptionReason)!/]
+      [#else]
+       [@b.field  label="申请免答辩"]
+         <input name="closure.applyExemptionReply" value="0" type="radio" checked="checked"/>
+         [#if closure.applyExemptionReply]
+           ${closure.exemptionReason!}
+           <span class="badge">
+           [#if closure.exemptionConfirmed??]
+            ${closure.exemptionConfirmed?string('审核通过','审核不通过')} [#if !closure.exemptionConfirmed]:${closure.applyRejectComment!}[/#if]
+           [#else]未审核
+           [/#if]
+           </span>
+         [#else]不申请[/#if]
+       [/@]
+      [/#if]
       [@b.field  label="结项材料"]<input type="file" name="attachment"/>
-      [#list project.materials as m][#if m.stageType==closureStage][@b.a target="_blank" href="!attachment?attachment.id="+m.attachment.id]${m.fileName}[/@][/#if][/#list]
-    [/@]
+        [#list project.materials as m][#if m.stageType==closureStage][@b.a target="_blank" href="!attachment?attachment.id="+m.attachment.id]${m.fileName}[/@][/#if][/#list]
+      [/@]
     [/#if]
     [@b.formfoot]
       [#if closure??]
@@ -40,7 +57,8 @@
   jQuery(document).ready(function(){
      jQuery('#applyExemptionReply_0').click(displayReason);
      jQuery('#applyExemptionReply_1').click(displayReason);
-     if(document.closureForm['closure.applyExemptionReply'].value=='1'){
+     var applyExemption=$("input[name='closure.applyExemptionReply']:checked").val();
+     if(applyExemption == '1'){
        jQuery('#exemptionReason').parent().css("display","")
      }else{
        jQuery('#exemptionReason').parent().css("display","none")

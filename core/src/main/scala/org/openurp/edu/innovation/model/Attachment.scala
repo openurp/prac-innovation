@@ -39,6 +39,7 @@ object Attachment {
     a
   }
 }
+
 class Attachment extends LongId with Updated {
   var size: Int = _
 

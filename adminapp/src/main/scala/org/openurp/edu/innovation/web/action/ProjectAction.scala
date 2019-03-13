@@ -39,6 +39,7 @@ class ProjectAction extends RestfulAction[Project] {
     val departQuery = OqlBuilder.from(classOf[Department], "d").where("d.endOn is null or d.endOn >=:endOn", batches.head.beginOn)
     put("departments", entityDao.search(departQuery))
     put("projectLevels", entityDao.getAll(classOf[ProjectLevel]))
+    put("projectStates", entityDao.getAll(classOf[ProjectState]))
   }
 
   protected override def getQueryBuilder(): OqlBuilder[Project] = {

@@ -39,16 +39,17 @@ class DefaultMapping extends MappingModule {
       e.innovation is length(300),
       e.product is length(300)))
 
-    bind[ProjectCategory]
-    bind[ProjectLevel]
-    bind[ProjectState]
+    bind[ProjectCategory].cacheable()
+    bind[ProjectLevel].cacheable()
+    bind[ProjectState].cacheable()
 
     bind[Batch].on(e => declare(
-      e.stages is depends("batch")))
+      e.stages is depends("batch"))).cacheable()
 
-    bind[Stage]
+    bind[Stage].cacheable()
 
-    bind[StageType]
+    bind[StageType].on(e => declare(
+      e.children is depends("parent"))).cacheable()
 
     bind[Section].on(e => declare(
       e.children is depends("parent"),
@@ -67,5 +68,6 @@ class DefaultMapping extends MappingModule {
 
     bind[Closure].on(e => declare(
       e.exemptionReason is length(200)))
+
   }
 }
