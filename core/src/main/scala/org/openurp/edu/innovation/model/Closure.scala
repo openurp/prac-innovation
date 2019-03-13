@@ -26,17 +26,17 @@ import org.beangle.data.model.pojo.Updated
  */
 class Closure extends LongId with Updated{
   var project: Project = _
-  
+
   var applyExemptionReply: Boolean = _
-  
+
   var exemptionReason: Option[String] = None
-  
+
   var exemptionConfirmed: Option[Boolean] = None
-  
+
   var applyRejectComment: Option[String] = None
-  
+
   var replyScore: Option[Int] = None
-  
+
   def this(project: Project) {
     this()
     this.project = project

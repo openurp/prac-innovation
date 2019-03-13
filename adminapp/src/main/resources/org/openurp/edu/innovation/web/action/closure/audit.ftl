@@ -14,7 +14,7 @@
     [@b.field  label="指导老师"][#list (project.instructors)! as i]${i.user.name}(${i.user.code})[/#list][/@]
     [@b.field  label="其他成员"][#list (project.members)! as i][#if i.id != project.manager.id]${i.std.user.name}(${i.std.user.code})[/#if][#if i_has_next]&nbsp;[/#if][/#list][/@]
     [@b.field  label="申请免答辩"]${closure.exemptionReason!}[/@]
-    [@b.field  label="结项材料"][@b.a href="!attachment?attachment.id=${closure.project.closureMaterial.id}" target="_blank" title="下载结项材料"]${closure.project.closureMaterial.fileName}[/@][/@]
+    [@b.field  label="结项材料"][@b.a href="!attachment?project.id=${closure.project.id}" target="_blank" title="下载结项材料"]${closure.project.closureMaterial.fileName}[/@][/@]
     [#if closure.applyExemptionReply]
     [@b.radios label="是否同意免答辩" name="closure.exemptionConfirmed" value=(closure.exemptionConfirmed)!false items="1:common.yes,0:common.no"/]
     [@b.textfield name="closure.applyRejectComment" label="不同意原因" value="${closure.applyRejectComment!}" required="false" maxlength="100" style="width:200px"/]
