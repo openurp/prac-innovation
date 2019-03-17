@@ -19,26 +19,11 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.data.model.pojo.Named
+import org.beangle.commons.collection.Collections
+import scala.collection.mutable.Buffer
 
-class Member extends LongId with Remark {
+class Template extends LongId with Named {
 
-  var std: Student = _
-
-  var project: Project = _
-
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
-  }
+  var sections: Buffer[Section] = Collections.newBuffer[Section]
 }

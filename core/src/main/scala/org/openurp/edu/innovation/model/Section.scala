@@ -19,26 +19,18 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Hierarchical
 import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
 
-class Member extends LongId with Remark {
+class Section extends LongId with Hierarchical[Section] with Remark {
 
-  var std: Student = _
+  /**项目模板*/
+  var template: Template = _
 
-  var project: Project = _
+  /**名称*/
+  var name: String = _
 
-  var duty: String = _
+  /**最大长度*/
+  var maxLength: Int = _
 
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
-  }
 }

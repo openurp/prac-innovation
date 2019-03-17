@@ -16,29 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.openurp.edu.innovation.web
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.cdi.bind.BindModule
+import org.openurp.edu.innovation.web.action.ProjectAction
+import org.openurp.edu.innovation.web.action.BatchAction
+import org.openurp.edu.innovation.web.action.ClosureAction
 
-class Member extends LongId with Remark {
+class DefaultModule extends BindModule {
 
-  var std: Student = _
-
-  var project: Project = _
-
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
+  protected override def binding() {
+    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction])
   }
 }

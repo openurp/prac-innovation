@@ -18,27 +18,20 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.data.model.IntId
+import org.beangle.data.model.pojo.{ Coded, Named }
+import org.beangle.data.model.pojo.TemporalOn
+import org.beangle.data.model.pojo.Hierarchical
 
-class Member extends LongId with Remark {
+object StageType {
+  val Closure = 3
+  val ApplyExemptionReply = 4
+}
 
-  var std: Student = _
+class StageType extends IntId with Named with Coded with TemporalOn with Hierarchical[StageType] {
 
-  var project: Project = _
-
-  var duty: String = _
-
-  var hobby: Option[String] = None
-
-  var phone: String = _
-
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
+  def this(id: Int) {
     this()
-    this.project = project
-    this.std = std
+    this.id = id
   }
 }

@@ -7,9 +7,9 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openurp.edu.innovation</groupId>
-  <artifactId>openurp-edu-innovation-core</artifactId>
-  <packaging>jar</packaging>
-  <name>Openurp Edu Innovation Core</name>
+  <artifactId>openurp-edu-innovation-adminapp</artifactId>
+  <packaging>war</packaging>
+  <name>Openurp Edu Innovation Adminapp</name>
 
   <dependencies>
     <dependency>
@@ -18,9 +18,9 @@
       <version>${openurp.app.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.base</groupId>
-      <artifactId>openurp-edu-base-api</artifactId>
-      <version>${openurp.api.version}</version>
+      <groupId>org.openurp.edu.innovation</groupId>
+      <artifactId>openurp-edu-innovation-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

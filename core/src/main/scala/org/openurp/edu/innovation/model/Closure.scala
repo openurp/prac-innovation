@@ -19,26 +19,26 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
+import org.beangle.data.model.pojo.Updated
 
-class Member extends LongId with Remark {
-
-  var std: Student = _
-
+/**
+ * 项目结项
+ */
+class Closure extends LongId with Updated{
   var project: Project = _
 
-  var duty: String = _
+  var applyExemptionReply: Boolean = _
 
-  var hobby: Option[String] = None
+  var exemptionReason: Option[String] = None
 
-  var phone: String = _
+  var exemptionConfirmed: Option[Boolean] = None
 
-  var email: Option[String] = None
+  var applyRejectComment: Option[String] = None
 
-  def this(project: Project, std: Student) {
+  var replyScore: Option[Int] = None
+
+  def this(project: Project) {
     this()
     this.project = project
-    this.std = std
   }
 }

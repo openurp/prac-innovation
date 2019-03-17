@@ -19,26 +19,19 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Remark
-import org.openurp.edu.base.model.Student
 
-class Member extends LongId with Remark {
+class Intro extends LongId {
 
-  var std: Student = _
-
+  /**项目*/
   var project: Project = _
 
-  var duty: String = _
+  /**项目简介*/
+  var summary: String = _
 
-  var hobby: Option[String] = None
+  /**创新点和难点*/
+  var innovation: String = _
 
-  var phone: String = _
+  /**预期成果*/
+  var product: String = _
 
-  var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
-  }
 }
