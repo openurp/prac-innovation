@@ -1,7 +1,7 @@
 [#ftl]
 [@b.head/]
 [#list closures as c]
-  [#assign closure =c/]
+  [#assign closure = c/]
 [/#list]
 
 [@b.toolbar title="项目结项信息"]bar.addBack();[/@]
@@ -28,10 +28,10 @@
       [#else]
        [@b.field  label="申请免答辩"]
          <input name="closure.applyExemptionReply" value="0" type="radio" checked="checked"/>
-         [#if closure.applyExemptionReply]
-           ${closure.exemptionReason!}
+         [#if (closure.applyExemptionReply)!false]
+           ${(closure.exemptionReason)!}
            <span class="badge">
-           [#if closure.exemptionConfirmed??]
+           [#if (closure.exemptionConfirmed)??]
             ${closure.exemptionConfirmed?string('审核通过','审核不通过')} [#if !closure.exemptionConfirmed]:${closure.applyRejectComment!}[/#if]
            [#else]未审核
            [/#if]
