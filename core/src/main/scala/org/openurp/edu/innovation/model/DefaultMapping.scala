@@ -69,5 +69,10 @@ class DefaultMapping extends MappingModule {
     bind[Closure].on(e => declare(
       e.exemptionReason is length(200)))
 
+    bind[Expert].on(e => declare(
+      e.name is length(50),
+      e.code is length(20),
+      e.intro is length(300)))
+
   }
 }
