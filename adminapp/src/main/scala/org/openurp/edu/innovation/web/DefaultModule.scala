@@ -19,13 +19,14 @@
 package org.openurp.edu.innovation.web
 
 import org.beangle.cdi.bind.BindModule
-import org.openurp.edu.innovation.web.action.ProjectAction
 import org.openurp.edu.innovation.web.action.BatchAction
 import org.openurp.edu.innovation.web.action.ClosureAction
+import org.openurp.edu.innovation.web.action.ExpertAction
+import org.openurp.edu.innovation.web.action.ProjectAction
 
 class DefaultModule extends BindModule {
 
   protected override def binding() {
-    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction])
+    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction], classOf[ExpertAction])
   }
 }
