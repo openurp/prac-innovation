@@ -18,8 +18,8 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.orm.MappingModule
 import org.beangle.data.orm.IdGenerator
+import org.beangle.data.orm.MappingModule
 
 class DefaultMapping extends MappingModule {
 
@@ -73,6 +73,8 @@ class DefaultMapping extends MappingModule {
       e.name is length(50),
       e.code is length(20),
       e.intro is length(300)))
+      
+    bind[Lesson]
 
   }
 }

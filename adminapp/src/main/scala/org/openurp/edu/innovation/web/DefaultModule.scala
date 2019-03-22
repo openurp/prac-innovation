@@ -23,10 +23,11 @@ import org.openurp.edu.innovation.web.action.BatchAction
 import org.openurp.edu.innovation.web.action.ClosureAction
 import org.openurp.edu.innovation.web.action.ExpertAction
 import org.openurp.edu.innovation.web.action.ProjectAction
+import org.openurp.edu.innovation.web.action.LessonAction
 
 class DefaultModule extends BindModule {
 
   protected override def binding() {
-    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction], classOf[ExpertAction])
+    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction], classOf[ExpertAction],classOf[LessonAction])
   }
 }

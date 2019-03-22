@@ -8,8 +8,7 @@ import org.openurp.edu.innovation.model.Expert
 class ExpertAction extends RestfulAction[Expert] {
 
   override protected def editSetting(entity: Expert): Unit = {
-    val disciplines = entityDao.search(OqlBuilder.from(classOf[Discipline]))
-    put("disciplines", disciplines)
+    put("disciplines", entityDao.getAll(classOf[Discipline]))
   }
 
 }
