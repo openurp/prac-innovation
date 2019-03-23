@@ -22,17 +22,12 @@ import java.io.ByteArrayInputStream
 
 import org.beangle.commons.activation.MimeTypes
 import org.beangle.commons.lang.Strings
+import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.ignore
 import org.beangle.webmvc.api.view.{ Stream, View }
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.edu.innovation.model.{ Attachment, Closure }
-import org.beangle.data.dao.OqlBuilder
 import org.openurp.base.model.Department
-import org.openurp.edu.innovation.model.ProjectCategory
-import org.openurp.edu.innovation.model.Batch
-import org.openurp.edu.innovation.model.StageType
-import org.openurp.edu.innovation.model.Material
-import org.openurp.edu.innovation.model.Project
+import org.openurp.edu.innovation.model.{ Batch, Closure, Material, Project, ProjectCategory, StageType }
 
 class ClosureAction extends RestfulAction[Closure] {
 
@@ -59,6 +54,21 @@ class ClosureAction extends RestfulAction[Closure] {
     val attachments = entities.map(_.project.closureMaterial).flatten.map(_.attachment)
     remove(entities, attachments)
     redirect("search", "info.remove.success")
+  }
+
+  def batchEditReply(): View = {
+    var closures = entityDao.find(classOf[Closure], longIds("closure")).filter(!_.exemptionConfirmed.getOrElse(false))
+    put("closures", closures);
+    forward()
+  }
+
+  def saveBatchEditReply(): View = {
+    val closures = entityDao.find(classOf[Closure], longIds("closure"))
+    closures.foreach { c =>
+      c.replyScore = getInt("closure_" + c.id + ".replyScore")
+    }
+    entityDao.saveOrUpdate(closures)
+    redirect("search", "info.save.success")
   }
 
   def attachment(): View = {
