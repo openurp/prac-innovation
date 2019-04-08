@@ -22,6 +22,16 @@ import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Remark
 import org.openurp.edu.base.model.Student
 
+object Member {
+  def apply(project: Project, std: Student): Member = {
+    val m = new Member()
+    m.project = project
+    m.std = std
+    m.duty = "--"
+    m.phone = "--"
+    m
+  }
+}
 class Member extends LongId with Remark {
 
   var std: Student = _
@@ -35,10 +45,4 @@ class Member extends LongId with Remark {
   var phone: String = _
 
   var email: Option[String] = None
-
-  def this(project: Project, std: Student) {
-    this()
-    this.project = project
-    this.std = std
-  }
 }

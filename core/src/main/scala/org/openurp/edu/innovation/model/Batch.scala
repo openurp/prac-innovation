@@ -23,8 +23,11 @@ import org.beangle.data.model.pojo.{ Named, DateRange }
 import org.beangle.data.model.IntId
 import org.beangle.commons.collection.Collections
 import scala.collection.mutable.Buffer
+import org.openurp.base.model.School
 
 class Batch extends IntId with Named with DateRange {
+
+  var school: School = _
 
   /**是否归档*/
   var archived: Boolean = _

@@ -73,8 +73,5 @@ class DefaultMapping extends MappingModule {
       e.name is length(50),
       e.code is length(20),
       e.intro is length(300)))
-      
-    bind[Lesson]
-
   }
 }
