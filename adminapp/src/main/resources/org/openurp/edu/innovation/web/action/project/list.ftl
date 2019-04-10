@@ -5,7 +5,7 @@
     bar.addItem("${b.text("action.new")}",action.add());
     bar.addItem("${b.text("action.modify")}",action.edit());
     bar.addItem("${b.text("action.delete")}",action.remove("确认删除?"));
-    bar.addItem("${b.text("action.export")}",action.exportData("",null,'fileName=项目信息'));
+    bar.addItem("${b.text("action.export")}",action.exportData("",null,'fileName=项目信息&template=project.xls'));
   [/@]
   [@b.row]
     [@b.boxcol /]

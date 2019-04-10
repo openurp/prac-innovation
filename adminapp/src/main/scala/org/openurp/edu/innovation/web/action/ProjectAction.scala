@@ -29,13 +29,12 @@ import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{ Student, Teacher }
 import org.openurp.edu.innovation.model.{ Batch, Intro, Member, Project, ProjectCategory, ProjectLevel, ProjectState }
-import org.beangle.data.transfer.excel.ExcelTemplateWriter
+import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.context.ActionContext
 import org.openurp.edu.innovation.web.helper.ExportProject
 import org.beangle.commons.lang.ClassLoaders
 import org.beangle.commons.web.util.RequestUtils
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.data.transfer.exporter.Context
 import org.beangle.webmvc.api.view.Status
 import org.beangle.data.transfer.Format
 
@@ -160,35 +159,13 @@ class ProjectAction extends RestfulAction[Project] {
     put("pageLimit", pageLimit);
     forward()
   }
-  override def export(): View = {
-    val ctx = new Context()
-    ctx.format = Format.Xls
-
-    val ext = ".xls"
-    val fileName =
-      get("fileName") match {
-        case Some(f) =>
-          val name = if (!f.endsWith(ext)) f + ext else f
-          ctx.put("fileName", name)
-          name
-        case None => "exportFile" + ext
-      }
-
-    val response = ActionContext.current.response
-    RequestUtils.setContentDisposition(response, fileName)
-    val writer = new ExcelTemplateWriter(ClassLoaders.getResource("project.xls").get, response.getOutputStream)
-    writer.context = ctx;
-    buildExportContext(ctx)
-    writer.write()
-    Status.Ok
-  }
 
   @ignore
-  override def buildExportContext(ctx: Context) {
+  override def configExport(setting: ExportSetting) {
     val query = getQueryBuilder()
     query.limit(null)
     val closures = entityDao.search(query);
     val projects = closures.map(x => new ExportProject(x))
-    ctx.put("items", scala.collection.JavaConverters.asJavaCollection(projects))
+    setting.context.put("items", scala.collection.JavaConverters.asJavaCollection(projects))
   }
 }
