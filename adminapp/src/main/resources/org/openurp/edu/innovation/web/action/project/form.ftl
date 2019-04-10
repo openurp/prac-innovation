@@ -6,7 +6,7 @@
     [@b.textfield name="project.code" label="编号" value="${project.code!}" required="false" maxlength="20"/]
     [@b.textfield name="project.title" label="名称" value="${project.title!}" required="true" maxlength="100" style="width:400px"/]
     [@b.textarea name="intro.summary" label="简介" value=(project.intro.summary)! required="true" rows="8" cols="100" maxlength="700" comment="200字以内"/]
-    [@b.textfield label="项目负责人" name="manager.std.user.code" required="true" value=(project.manager.std.user.code)! comment=(project.manager.std.user.name)!/]
+    [@b.textfield label="项目负责人" name="managerCode" required="true" value=(project.manager.std.user.code)! comment=(project.manager.std.user.name)!/]
     [@b.textfield label="联系电话" name="manager.phone" required="true" value=(project.manager.phone)!/]
     [@b.textfield label="联系邮箱" name="manager.email" required="true" value=(project.manager.email)! style="width:150px"/]
     [@b.textfield label="项目分工" name="manager.duty" required="true" maxlength="100" value=(project.manager.duty)! style="width:400px"/]

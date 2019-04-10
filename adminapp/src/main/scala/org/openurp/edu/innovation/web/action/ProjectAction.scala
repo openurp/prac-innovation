@@ -84,8 +84,9 @@ class ProjectAction extends RestfulAction[Project] {
     project.instructors ++= instructors
 
     //保存项目负责人和成员
-    val stdQuery = OqlBuilder.from(classOf[Student], "s").where("s.user.code=:code", get("manager.std.user.code").get)
+    val stdQuery = OqlBuilder.from(classOf[Student], "s").where("s.user.code=:code", get("managerCode").get)
     val stds = entityDao.search(stdQuery)
+
     val manager = populateEntity(classOf[Member], "manager")
     if (!manager.persisted) {
       if (null == manager.duty) {
