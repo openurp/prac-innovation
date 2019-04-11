@@ -23,7 +23,6 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.edu.innovation.model.{ Batch, StageType }
 import org.openurp.edu.innovation.model.Stage
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.LocalDateTime
 import java.time.Instant
@@ -65,9 +64,9 @@ class BatchAction extends RestfulAction[Batch] {
       }
     }
 
-    if (!entity.stages.isEmpty) {
+    if (entity.stages.nonEmpty) {
       val dateOrdering = new Ordering[Instant]() {
-        def compare(a: Instant, b: Instant) = a.compareTo(b)
+        def compare(a: Instant, b: Instant): Int = a.compareTo(b)
       }
       entity.beginOn = LocalDateTime.ofInstant(entity.stages.map(_.beginAt).min(dateOrdering), ZoneId.systemDefault).toLocalDate
       entity.endOn = LocalDateTime.ofInstant(entity.stages.map(_.endAt).max(dateOrdering), ZoneId.systemDefault).toLocalDate

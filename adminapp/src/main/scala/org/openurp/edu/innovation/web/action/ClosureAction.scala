@@ -24,17 +24,10 @@ import org.beangle.commons.activation.MimeTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{ Stream, View }
+import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
-import org.openurp.edu.innovation.model.{ Batch, Closure, Material, Project, ProjectCategory, StageType }
-import org.openurp.edu.innovation.web.helper.ExportProject
-import org.beangle.webmvc.api.context.ActionContext
-import org.beangle.commons.web.util.RequestUtils
-import org.beangle.data.transfer.Format
-import org.beangle.webmvc.api.view.Status
-import org.beangle.data.transfer.excel.ExcelTemplateWriter
-import org.beangle.commons.lang.ClassLoaders
+import org.openurp.edu.innovation.model._
 
 class ClosureAction extends RestfulAction[Closure] {
 
@@ -58,14 +51,14 @@ class ClosureAction extends RestfulAction[Closure] {
 
   @ignore
   protected override def removeAndRedirect(entities: Seq[Closure]): View = {
-    val attachments = entities.map(_.project.closureMaterial).flatten.map(_.attachment)
+    val attachments = entities.flatten(_.project.closureMaterial).map(_.attachment)
     remove(entities, attachments)
     redirect("search", "info.remove.success")
   }
 
   def batchEditReply(): View = {
-    var closures = entityDao.find(classOf[Closure], longIds("closure")).filter(!_.exemptionConfirmed.getOrElse(false))
-    put("closures", closures);
+    val closures = entityDao.find(classOf[Closure], longIds("closure")).filter(!_.exemptionConfirmed.getOrElse(false))
+    put("closures", closures)
     forward()
   }
 
