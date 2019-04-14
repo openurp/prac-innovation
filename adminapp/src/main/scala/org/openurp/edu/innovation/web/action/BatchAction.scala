@@ -21,13 +21,14 @@ package org.openurp.edu.innovation.web.action
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.edu.innovation.model.{ Batch, StageType }
+import org.openurp.edu.innovation.model.{Batch, StageType}
 import org.openurp.edu.innovation.model.Stage
 import java.time.ZoneId
 import java.time.LocalDateTime
 import java.time.Instant
+import org.openurp.edu.boot.web.ProjectSupport
 
-class BatchAction extends RestfulAction[Batch] {
+class BatchAction extends RestfulAction[Batch] with ProjectSupport {
 
   override protected def editSetting(entity: Batch): Unit = {
     val stageTypes = entityDao.search(OqlBuilder.from(classOf[StageType]))
@@ -71,6 +72,7 @@ class BatchAction extends RestfulAction[Batch] {
       entity.beginOn = LocalDateTime.ofInstant(entity.stages.map(_.beginAt).min(dateOrdering), ZoneId.systemDefault).toLocalDate
       entity.endOn = LocalDateTime.ofInstant(entity.stages.map(_.endAt).max(dateOrdering), ZoneId.systemDefault).toLocalDate
     }
+    entity.school = getProject().school
     super.saveAndRedirect(entity)
   }
 }

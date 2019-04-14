@@ -19,8 +19,20 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{ Named, Coded }
+import org.beangle.data.model.pojo.{Named, Coded}
+
+object ProjectState {
+  var Intial = 10
+  var IntialFail = 11
+  var IntialSucc = 12
+
+  var Terminate = 99
+}
 
 class ProjectState extends IntId with Named with Coded {
 
+  def this(id: Int) {
+    this()
+    this.id = id
+  }
 }

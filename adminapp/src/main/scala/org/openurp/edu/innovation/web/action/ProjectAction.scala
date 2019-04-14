@@ -67,7 +67,6 @@ class ProjectAction extends RestfulAction[Project] {
 
     val departQuery = OqlBuilder.from(classOf[Department], "d").where("d.endOn is null or d.endOn >=:endOn", project.batch.beginOn)
     put("departments", entityDao.search(departQuery))
-
   }
 
   override protected def saveAndRedirect(project: Project): View = {
