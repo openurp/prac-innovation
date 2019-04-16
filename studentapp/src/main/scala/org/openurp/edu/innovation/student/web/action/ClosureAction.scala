@@ -23,18 +23,17 @@ import java.time.Instant
 
 import org.beangle.commons.activation.MimeTypes
 import org.beangle.commons.lang.Strings
-import org.beangle.data.dao.{ EntityDao, OqlBuilder }
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.action.{ ActionSupport, EntitySupport }
-import org.beangle.webmvc.api.view.{ Stream, View }
+import org.beangle.webmvc.api.action.{ActionSupport, EntitySupport}
+import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.helper.PopulateHelper
-import org.openurp.edu.innovation.model.{ Attachment, Closure, Material, Project, StageType }
+import org.openurp.edu.innovation.model.{Attachment, Closure, Material, Project, StageType}
 
 import javax.servlet.http.Part
+import org.beangle.webmvc.entity.action.EntityAction
 
-class ClosureAction extends ActionSupport with EntitySupport[Project] {
-
-  var entityDao: EntityDao = _
+class ClosureAction extends ActionSupport with EntityAction[Project] with MyProject {
 
   def index(): View = {
     val user = Securities.user;
@@ -64,7 +63,7 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
       val closureStage = new StageType(StageType.Closure)
       val closure =
         getId("closure", classOf[Long]) match {
-          case None     => new Closure(project)
+          case None => new Closure(project)
           case Some(id) => entityDao.get(classOf[Closure], id)
         }
       val originalExceptionReply = closure.applyExemptionReply
@@ -91,7 +90,7 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
       if (parts.size > 0 && parts.head.getSize > 0) {
         val material =
           project.materials.find(_.stageType == closureStage) match {
-            case None    => new Material(project, closureStage)
+            case None => new Material(project, closureStage)
             case Some(m) => m
           }
         val attachment = material.attachment
@@ -111,21 +110,4 @@ class ClosureAction extends ActionSupport with EntitySupport[Project] {
     }
   }
 
-  def attachment(): View = {
-    val attachment = entityDao.get(classOf[Attachment], longId("attachment"))
-    Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-      attachment.fileName)
-  }
-
-  private def decideContentType(fileName: String): String = {
-    MimeTypes.getMimeType(Strings.substringAfterLast(fileName, "."), MimeTypes.ApplicationOctetStream).toString
-  }
-
-  private def isIntime(project: Project, stageTypeId: Int): Boolean = {
-    val closureStage = new StageType(stageTypeId)
-    project.batch.getStage(closureStage) match {
-      case None        => false
-      case Some(stage) => stage.intime
-    }
-  }
 }

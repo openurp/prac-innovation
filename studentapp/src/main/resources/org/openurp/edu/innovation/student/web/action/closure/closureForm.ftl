@@ -5,7 +5,7 @@
 [/#list]
 
 [@b.toolbar title="项目结项信息"]bar.addBack();[/@]
-  [@b.form action="!saveClosure" theme="list" name="closureForm" onsubmit="checkClosure" ]
+  [@b.form action="!saveClosure" theme="list" name="closureForm" onsubmit="checkClosure"  enctype="multipart/form-data" ]
     [@b.field  label="编号" value="" ]${project.code!}[/@]
     [@b.field  label="名称"]${project.title!}[/@]
     [@b.field  label="简介"] <div style="margin-left:100px">${project.intro.summary!}</div>[/@]

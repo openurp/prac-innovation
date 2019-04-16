@@ -18,29 +18,35 @@
  */
 package org.openurp.edu.innovation.student.web.action
 
-import org.beangle.webmvc.api.action.ActionSupport
-import org.openurp.edu.boot.web.ProjectSupport
-import org.openurp.edu.innovation.model.Project
-import org.beangle.webmvc.entity.action.EntityAction
-import org.openurp.base.model.Department
-import org.openurp.edu.innovation.model.ProjectCategory
-import org.openurp.code.edu.model.Discipline
-import java.time.LocalDate
-import org.openurp.edu.base.model.Teacher
-import org.beangle.commons.lang.Strings
-import org.openurp.edu.innovation.model.ProjectState
-import org.beangle.data.dao.OqlBuilder
-import org.openurp.edu.innovation.model.Intro
-import org.openurp.edu.innovation.model.ProjectLevel
-import org.openurp.edu.base.model.Student
-import org.openurp.edu.innovation.model.Member
-import org.beangle.webmvc.api.view.View
-import org.openurp.edu.innovation.model.Batch
-import org.beangle.security.Securities
-import org.openurp.edu.innovation.model.StageType
+import java.io.ByteArrayInputStream
 import java.time.Instant
+import java.time.LocalDate
 
-class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport {
+import org.beangle.commons.activation.MimeTypes
+import org.beangle.commons.lang.Strings
+import org.beangle.data.dao.OqlBuilder
+import org.beangle.security.Securities
+import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.View
+import org.beangle.webmvc.entity.action.EntityAction
+import org.openurp.code.edu.model.Discipline
+import org.openurp.edu.base.model.Student
+import org.openurp.edu.base.model.Teacher
+import org.openurp.edu.boot.web.ProjectSupport
+import org.openurp.edu.innovation.model.Attachment
+import org.openurp.edu.innovation.model.Batch
+import org.openurp.edu.innovation.model.Intro
+import org.openurp.edu.innovation.model.Member
+import org.openurp.edu.innovation.model.Project
+import org.openurp.edu.innovation.model.ProjectCategory
+import org.openurp.edu.innovation.model.ProjectLevel
+import org.openurp.edu.innovation.model.ProjectState
+import org.openurp.edu.innovation.model.StageType
+import org.openurp.edu.innovation.model.Material
+import javax.servlet.http.Part
+
+class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
 
   def index(): View = {
     val user = Securities.user
@@ -53,6 +59,7 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       query.where("p.manager.std.user.code=:code", user)
       query.where("p.batch=:batch", batches.head)
       put("projects", entityDao.search(query))
+      put("initialStage", batches.head.getStage(initialStage))
     } else {
       put("projects", List.empty[Project])
     }
@@ -66,10 +73,10 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       project.batch = entityDao.get(classOf[Batch], getInt("project.batch.id").get)
     }
     put("projectCategories", entityDao.getAll(classOf[ProjectCategory]))
-    put("projectLevels", entityDao.getAll(classOf[ProjectLevel]))
     put("projectStates", entityDao.getAll(classOf[ProjectState]))
     put("disciplines", entityDao.search(OqlBuilder.from(classOf[Discipline], "d").where("length(d.code)=3").orderBy("d.code")))
 
+    put("initialStage", project.batch.getStage(new StageType(StageType.Initial)))
     put("managerCode", Securities.user)
     put("project", project)
     forward()
@@ -78,11 +85,18 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
   def save(): View = {
     val project = populateEntity(classOf[Project], "project")
     project.state = new ProjectState(ProjectState.Intial)
+    val batch = entityDao.get(classOf[Batch], project.batch.id)
+    project.batch = batch
+    val initialStageType = new StageType(StageType.Initial)
+    if (!isIntime(project, StageType.Initial)) {
+      return redirect("index", "不在时间范围内");
+    }
     //保存项目负责人和成员
     val stdQuery = OqlBuilder.from(classOf[Student], "s").where("s.user.code=:code", Securities.user)
     val stds = entityDao.search(stdQuery)
 
     project.department = stds.head.state.get.department
+    project.level=new ProjectLevel(ProjectLevel.School)
     entityDao.saveOrUpdate(project)
 
     project.instructors.clear()
@@ -121,6 +135,24 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     intro.project = project
     project.intro = Some(intro)
     entityDao.saveOrUpdate(intro, manager, project)
+
+    val parts = getAll("attachment", classOf[Part])
+    if (parts.size > 0 && parts.head.getSize > 0) {
+       val material =
+        project.materials.find(_.stageType == initialStageType) match {
+          case None => new Material(project, initialStageType)
+          case Some(m) => m
+        }
+      val attachment = material.attachment
+      val part = getAll("attachment", classOf[Part]).head
+      val fileName = part.getSubmittedFileName
+      val now = Instant.now
+      material.fileName = fileName
+      material.updatedAt = now
+      attachment.merge(Attachment(part.getSubmittedFileName, part.getInputStream))
+      entityDao.saveOrUpdate(attachment)
+    }
+
     redirect("index", "&batch.id=" + project.batch.id, "info.save.success")
   }
 

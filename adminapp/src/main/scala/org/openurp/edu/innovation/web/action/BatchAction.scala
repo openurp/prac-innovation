@@ -55,6 +55,8 @@ class BatchAction extends RestfulAction[Batch] with ProjectSupport {
         i += 1
       }
 
+      stage.noticeHref = get("stageType_noticeHref" + st.id)
+
       getDateTime("stageType" + st.id + ".endAt") foreach { endAt =>
         stage.endAt = endAt.atZone(ZoneId.systemDefault).toInstant
         i += 1

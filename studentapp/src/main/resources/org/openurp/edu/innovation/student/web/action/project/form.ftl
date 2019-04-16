@@ -2,15 +2,14 @@
 [@b.head/]
 [@b.toolbar title="新建/修改项目信息"]bar.addBack();[/@]
   <script type="text/javascript" crossorigin="anonymous" src="${base}/static/js/ajax-chosen.js"></script>
-  [@b.form action="!save" theme="list"]
+  [@b.form action="!save" theme="list"  enctype="multipart/form-data" onsubmit="checkProject"]
     [@b.textfield name="project.title" label="名称" value="${project.title!}" required="true" maxlength="100" style="width:400px"/]
     [@b.textarea name="intro.summary" label="简介" value=(project.intro.summary)! required="true" rows="8" cols="100" maxlength="700" comment="200字以内"/]
     [@b.textfield label="项目负责人" name="managerCode" required="true" value=(managerCode)! readOnly="true"/]
-    [@b.textfield label="联系电话" name="manager.phone" required="true" value=(project.manager.phone)!/]
-    [@b.textfield label="联系邮箱" name="manager.email" required="true" value=(project.manager.email)! style="width:150px"/]
-    [@b.textfield label="项目分工" name="manager.duty" required="true" maxlength="100" value=(project.manager.duty)! style="width:400px"/]
+    [@b.textfield label="负责人联系电话" name="manager.phone" required="true" value=(project.manager.phone)!/]
+    [@b.textfield label="负责人联系邮箱" name="manager.email" required="true" value=(project.manager.email)! style="width:150px"/]
+    [@b.textfield label="负责人项目分工" name="manager.duty" required="true" maxlength="100" value=(project.manager.duty)! style="width:400px"/]
     [@b.select name="project.category.id" label="项目类型" value="${(project.category.id)!}" style="width:200px;" items=projectCategories empty="..." required="true"/]
-    [@b.select name="project.level.id" label="项目级别" value="${(project.level.id)!}" style="width:200px;" items=projectLevels empty="..." required="true"/]
     [@b.startend label="开始和拟完成于"
       name="project.beginOn,project.endOn" required="true,true" start=(project.beginOn)! end=(project.endOn)! format="date"/]
 
@@ -34,6 +33,9 @@
     [/@]
     [@b.textarea name="intro.innovation" label="创新点和难点" value=(project.intro.innovation)! required="true" rows="5" cols="100" maxlength="200" comment="100字以内"/]
     [@b.textarea name="intro.product" label="预期成果" value=(project.intro.product)! required="true" rows="5" cols="100" maxlength="200" comment="100字以内"/]
+    [@b.field  label="立项材料"]<input type="file" name="attachment"/>
+      [#list project.materials as m][#if m.stageType==initialStage.stageType][@b.a target="_blank" href="!attachment?attachment.id="+m.attachment.id]${m.fileName}[/@][/#if][/#list]
+    [/@]
     [@b.textfield name="project.remark" label="备注" value="${project.remark!}"  maxlength="100"/]
     [@b.formfoot]
       [#if project.manager??]
@@ -82,5 +84,13 @@
     },
     {width:"400px"}
   );
+  
+   function checkProject(form){
+    if("" == form['attachment'].value){
+      alert("请上传立项材料");
+      return false;
+    }
+    return true;
+  }
 </script>
 [@b.foot/]

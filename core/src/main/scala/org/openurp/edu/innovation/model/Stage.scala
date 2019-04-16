@@ -19,7 +19,7 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{ DateRange, Named }
+import org.beangle.data.model.pojo.{DateRange, Named}
 import org.beangle.data.model.pojo.Remark
 import java.time.LocalDate
 import org.beangle.data.model.pojo.InstantRange
@@ -31,8 +31,11 @@ class Stage extends IntId with InstantRange with Remark {
 
   var batch: Batch = _
 
+  var noticeHref: Option[String] = None
+
   def intime: Boolean = {
     val now = Instant.now
     !endAt.isBefore(now) && !now.isBefore(beginAt)
   }
+
 }
