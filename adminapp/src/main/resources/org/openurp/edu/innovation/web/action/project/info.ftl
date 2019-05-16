@@ -1,105 +1,100 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="课程信息"]
+[@b.toolbar title="项目信息"]
   bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="infoTable">
   <tr>
     <td class="title" width="20%">代码</td>
-    <td class="content">${project.code}</td>
+    <td class="content">${project.code!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">名称</td>
-    <td class="content">${project.name}</td>
+    <td class="title">名称</td>
+    <td class="content">${project.title}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">英文名</td>
-    <td class="content">${project.enName!}</td>
-  </tr>
-  [#if project.levels ??]
-  <tr>
-    <td class="title" width="20%">培养层次</td>
-    <td class="content">
-      [#list project.levels as level]
-        ${level.name}
-        [#if level_has_next],[/#if]
-      [/#list]
-    </td>
-  </tr>
-  [/#if]
-  <tr>
-    <td class="title" width="20%">课程种类代码</td>
-    <td class="content">${(project.category.name)!}</td>
+    <td class="title">简介</td>
+    <td class="content">${(project.intro.summary)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">学分</td>
-    <td class="content">${project.credits!}</td>
+    <td class="title">负责人</td>
+    <td class="content">${(project.manager.std.user.code)!} ${(project.manager.std.user.name)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">学时</td>
-    <td class="content">${project.creditHours!}</td>
+    <td class="title">联系电话</td>
+    <td class="content">${(project.manager.phone)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">周课时</td>
-    <td class="content">${project.weekHours!}</td>
+    <td class="title">联系邮箱</td>
+    <td class="content">${(project.manager.email)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">周数</td>
-    <td class="content">${project.weeks!}</td>
+    <td class="title">项目分工</td>
+    <td class="content">${(project.manager.duty)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">院系</td>
+    <td class="title">院系</td>
     <td class="content">${(project.department.name)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">建议课程类别</td>
-    <td class="content">${(project.projectType.name)!}</td>
+    <td class="title">项目类型</td>
+    <td class="content">${(project.category.name)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">考试方式</td>
-    <td class="content">${(project.examMode.name)!}</td>
+    <td class="title">项目级别</td>
+    <td class="content">${(project.level.name)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">成绩记录方式</td>
-    <td class="content">${(project.markStyle.name)!}</td>
+    <td class="title">项目状态</td>
+    <td class="content">${(project.state.name)!}</td>
   </tr>
   <tr>
-   <td class="title" width="20%">是否计算绩点</td>
-   <td class="content">${(project.calgp?string("是","否"))!}</td>
+    <td class="title">开始和拟完成于</td>
+    <td class="content">${(project.beginOn?string("yyyy-MM-dd"))!}~${(project.endOn?string("yyyy-MM-dd"))!}</td>
   </tr>
-  [#if project.majors ??]
   <tr>
-    <td class="title" width="20%">针对专业</td>
+    <td class="title">一级学科</td>
+    <td class="content">${(project.discipline.name)!}</td>
+  </tr>
+  <tr>
+    <td class="title">经费</td>
+    <td class="content">${project.funds!}</td>
+  </tr>
+  <tr>
+    <td class="title">指导老师</td>
     <td class="content">
-      [#list project.majors as major]
-        ${major.name}
-        [#if major_has_next],[/#if]
-      [/#list]
+    [#list (project.instructors)! as i]${i.user.name}(${i.user.code})[#if i_has_next],[/#if][/#list]
     </td>
   </tr>
-  [/#if]
-  [#if project.xmajors ??]
   <tr>
-    <td class="title" width="20%">排除专业</td>
+    <td class="title">其他成员</td>
     <td class="content">
-      [#list project.xmajors as major]
-        ${major.name}
-        [#if major_has_next],[/#if]
-      [/#list]
+    [#list (project.members)! as m]
+        [#if m.id!=(project.manager.id)!0]
+        ${m.std.user.name}(${m.std.user.code})[#if m_has_next],[/#if]
+        [/#if]
+    [/#list]
     </td>
   </tr>
-  [/#if]
   <tr>
-    <td class="title" width="20%">生效时间</td>
-    <td class="content" >${project.beginOn!}</td>
+    <td class="title">创新点和难点</td>
+    <td class="content">${(project.intro.innovation)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">失效时间</td>
-    <td class="content" >${project.endOn!}</td>
+    <td class="title">预期成果</td>
+    <td class="content">${(project.intro.product)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">备注</td>
-    <td class="content">${project.remark!}</td>
+   <td class="title">备注</td>
+   <td class="content">${(project.remark)!}</td>
+  </tr>
+  <tr>
+   <td class="title">项目材料</td>
+   <td class="content">
+   [#list project.materials as m]
+     [@b.a href="!attachment?material.id="+m.id target="_blank"]${m.fileName}[/@]
+   [/#list]
+   </td>
   </tr>
 </table>
 

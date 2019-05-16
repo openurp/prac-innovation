@@ -40,8 +40,8 @@ class ClosureAction extends RestfulAction[Closure] {
     put("closureStage", new StageType(StageType.Closure))
   }
 
-  protected override def getQueryBuilder(): OqlBuilder[Closure] = {
-    val builder = super.getQueryBuilder()
+  protected override def getQueryBuilder: OqlBuilder[Closure] = {
+    val builder = super.getQueryBuilder
     getBoolean("need_audit") foreach { m =>
       builder.where(
         "(closure.applyExemptionReply=true and closure.exemptionConfirmed is " + (if (m) "" else "not") + " null)")

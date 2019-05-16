@@ -20,7 +20,7 @@ package org.openurp.edu.innovation.model
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{ Remark, TemporalOn }
+import org.beangle.data.model.pojo.{Remark, TemporalOn}
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.Teacher
@@ -52,7 +52,7 @@ class Project extends LongId with TemporalOn with Remark {
   var manager: Option[Member] = None
 
   /**项目级别*/
-  var level: Option[ProjectLevel] = None
+  var level: ProjectLevel = _
 
   /**项目类型*/
   var category: ProjectCategory = _

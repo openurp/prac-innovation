@@ -25,12 +25,15 @@ import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.annotation.ignore
 import org.beangle.webmvc.api.view.View
+import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
 import org.openurp.edu.innovation.model._
 import org.openurp.edu.innovation.web.helper.ExportProject
+import java.io.ByteArrayInputStream
+import org.beangle.commons.activation.MimeTypes
 
 class ProjectAction extends RestfulAction[Project] {
 
@@ -44,8 +47,8 @@ class ProjectAction extends RestfulAction[Project] {
     put("projectStates", entityDao.getAll(classOf[ProjectState]))
   }
 
-  protected override def getQueryBuilder(): OqlBuilder[Project] = {
-    val builder = super.getQueryBuilder()
+  protected override def getQueryBuilder: OqlBuilder[Project] = {
+    val builder = super.getQueryBuilder
     get("student") foreach { m =>
       if (!m.isEmpty) {
         builder.where(
@@ -54,6 +57,19 @@ class ProjectAction extends RestfulAction[Project] {
       }
     }
     builder
+  }
+
+  override def search(): View = {
+    put("projectLevels", entityDao.getAll(classOf[ProjectLevel]))
+    super.search()
+  }
+
+  def updateLevel(): View = {
+    val projects = entityDao.find(classOf[Project], longIds("project"))
+    val level = entityDao.get(classOf[ProjectLevel], intId("level"))
+    projects.foreach(x => x.level = level)
+    entityDao.saveOrUpdate(projects)
+    return redirect("search", "info.save.success")
   }
 
   protected override def editSetting(project: Project) {
@@ -156,10 +172,21 @@ class ProjectAction extends RestfulAction[Project] {
 
   @ignore
   override def configExport(setting: ExportSetting) {
-    val query = getQueryBuilder()
+    val query = getQueryBuilder
     query.limit(null)
     val closures = entityDao.search(query);
     val projects = closures.map(x => new ExportProject(x))
     setting.context.put("items", scala.collection.JavaConverters.asJavaCollection(projects))
+  }
+
+  def attachment(): View = {
+    val material = entityDao.get(classOf[Material], longId("material"))
+    val attachment = material.attachment
+    Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
+      attachment.fileName)
+  }
+
+  private def decideContentType(fileName: String): String = {
+    MimeTypes.getMimeType(Strings.substringAfterLast(fileName, "."), MimeTypes.ApplicationOctetStream).toString
   }
 }

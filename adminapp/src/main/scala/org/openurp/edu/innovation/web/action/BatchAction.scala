@@ -74,7 +74,7 @@ class BatchAction extends RestfulAction[Batch] with ProjectSupport {
       entity.beginOn = LocalDateTime.ofInstant(entity.stages.map(_.beginAt).min(dateOrdering), ZoneId.systemDefault).toLocalDate
       entity.endOn = LocalDateTime.ofInstant(entity.stages.map(_.endAt).max(dateOrdering), ZoneId.systemDefault).toLocalDate
     }
-    entity.school = getProject().school
+    entity.school = getProject.school
     super.saveAndRedirect(entity)
   }
 }

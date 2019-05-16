@@ -5,6 +5,10 @@
     bar.addItem("${b.text("action.new")}",action.add());
     bar.addItem("${b.text("action.modify")}",action.edit());
     bar.addItem("${b.text("action.delete")}",action.remove("确认删除?"));
+    var menu= bar.addMenu("变更等级为..");
+    [#list projectLevels as l]
+    menu.addItem("${l.name}",action.multi("updateLevel","确定变更等级吗?","&level.id=${l.id}"));
+    [/#list]
     bar.addItem("${b.text("action.export")}",action.exportData("",null,'fileName=项目信息&template=project.xls'));
   [/@]
   [@b.row]

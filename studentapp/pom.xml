@@ -15,7 +15,7 @@
     <dependency>
       <groupId>org.openurp.edu</groupId>
       <artifactId>openurp-edu-boot</artifactId>
-      <version>0.0.3</version>
+      <version>${openurp.edu.boot.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openurp.edu.innovation</groupId>

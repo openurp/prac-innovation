@@ -84,7 +84,7 @@
     },
     {width:"400px"}
   );
-  
+
    function checkProject(form){
     if("" == form['attachment'].value){
       alert("请上传立项材料");
