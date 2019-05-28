@@ -18,24 +18,24 @@
  */
 package org.openurp.edu.innovation.web.action
 
+import java.io.ByteArrayInputStream
 import java.time.LocalDate
 
+import org.beangle.commons.activation.MimeTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.View
-import org.beangle.webmvc.api.view.Stream
+import org.beangle.webmvc.api.view.{ Stream, View }
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
-import org.openurp.edu.base.model.{Student, Teacher}
-import org.openurp.edu.innovation.model._
+import org.openurp.edu.base.model.{ Student, Teacher }
+import org.openurp.edu.boot.web.ProjectSupport
+import org.openurp.edu.innovation.model.{ Batch, Intro, Material, Member, Project, ProjectCategory, ProjectLevel, ProjectState }
 import org.openurp.edu.innovation.web.helper.ExportProject
-import java.io.ByteArrayInputStream
-import org.beangle.commons.activation.MimeTypes
 
-class ProjectAction extends RestfulAction[Project] {
+class ProjectAction extends RestfulAction[Project] with ProjectSupport{
 
   protected override def indexSetting() {
     val batches = entityDao.getAll(classOf[Batch])
@@ -135,7 +135,7 @@ class ProjectAction extends RestfulAction[Project] {
   def teacher(): View = {
     val codeOrName = get("term").orNull
     val query = OqlBuilder.from(classOf[Teacher], "teacher")
-    query.where("teacher.project.id=:projectId", getInt("project").get)
+    query.where("teacher.project=:project", getProject)
     populateConditions(query);
 
     if (Strings.isNotEmpty(codeOrName)) {
@@ -155,7 +155,7 @@ class ProjectAction extends RestfulAction[Project] {
   def student(): View = {
     val codeOrName = get("term").orNull
     val query = OqlBuilder.from(classOf[Student], "student")
-    query.where("student.project.id=:projectId", getInt("project").get)
+    query.where("student.project=:project", getProject)
     populateConditions(query);
 
     if (Strings.isNotEmpty(codeOrName)) {
