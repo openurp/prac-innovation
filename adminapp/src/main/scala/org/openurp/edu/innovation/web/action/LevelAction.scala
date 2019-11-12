@@ -81,8 +81,10 @@ class LevelAction extends RestfulAction[Project] {
     projects.foreach { p =>
       if (level.id >= p.level.id) {
         var year = p.batch.beginOn.getYear
-        if (level != p.level) {
-          year += 1
+        if (p.level.id == 1) { //校级项目次年获奖
+          if (level != p.level) {
+            year += 1
+          }
         }
         p.levels.find(j => j.level == level) match {
           case None =>
