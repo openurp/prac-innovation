@@ -20,7 +20,7 @@ package org.openurp.edu.innovation.web.action
 
 import java.io.ByteArrayInputStream
 
-import org.beangle.commons.activation.MimeTypes
+import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.ignore
@@ -31,8 +31,8 @@ import org.openurp.edu.innovation.model._
 
 class ClosureAction extends RestfulAction[Closure] {
 
-  protected override def indexSetting() {
-    val batches = entityDao.getAll(classOf[Batch])
+  protected override def indexSetting(): Unit = {
+    val batches = entityDao.search(OqlBuilder.from(classOf[Batch], "b").orderBy("b.beginOn desc"))
     put("batches", batches)
     put("projectCategories", entityDao.getAll(classOf[ProjectCategory]))
     val departQuery = OqlBuilder.from(classOf[Department], "d").where("d.endOn is null or d.endOn >=:endOn", batches.head.beginOn)
@@ -95,6 +95,6 @@ class ClosureAction extends RestfulAction[Closure] {
   }
 
   private def decideContentType(fileName: String): String = {
-    MimeTypes.getMimeType(Strings.substringAfterLast(fileName, "."), MimeTypes.ApplicationOctetStream).toString
+    MediaTypes.get(Strings.substringAfterLast(fileName, "."), MediaTypes.ApplicationOctetStream).toString
   }
 }

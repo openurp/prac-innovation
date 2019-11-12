@@ -26,7 +26,8 @@ import org.openurp.edu.innovation.model.Stage
 import java.time.ZoneId
 import java.time.LocalDateTime
 import java.time.Instant
-import org.openurp.edu.boot.web.ProjectSupport
+
+import org.openurp.edu.base.web.ProjectSupport
 
 class BatchAction extends RestfulAction[Batch] with ProjectSupport {
 

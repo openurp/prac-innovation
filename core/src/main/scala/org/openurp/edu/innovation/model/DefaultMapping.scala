@@ -32,6 +32,7 @@ class DefaultMapping extends MappingModule {
     bind[Project].on(e => declare(
       e.members is depends("project"),
       e.materials is depends("project"),
+      e.levels is depends("project"),
       e.instructors is ordered))
 
     bind[Intro].on(e => declare(
@@ -42,6 +43,7 @@ class DefaultMapping extends MappingModule {
     bind[ProjectCategory].cacheable()
     bind[ProjectLevel].cacheable()
     bind[ProjectState].cacheable()
+    bind[LevelJounal]
 
     bind[Batch].on(e => declare(
       e.stages is depends("batch"))).cacheable()

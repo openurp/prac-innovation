@@ -21,21 +21,21 @@ package org.openurp.edu.innovation.web.action
 import java.io.ByteArrayInputStream
 import java.time.LocalDate
 
-import org.beangle.commons.activation.MimeTypes
+import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{ Stream, View }
+import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
-import org.openurp.edu.base.model.{ Student, Teacher }
-import org.openurp.edu.boot.web.ProjectSupport
-import org.openurp.edu.innovation.model.{ Batch, Intro, Material, Member, Project, ProjectCategory, ProjectLevel, ProjectState }
+import org.openurp.edu.base.model.{Student, Teacher}
+import org.openurp.edu.base.web.ProjectSupport
+import org.openurp.edu.innovation.model._
 import org.openurp.edu.innovation.web.helper.ExportProject
 
-class ProjectAction extends RestfulAction[Project] with ProjectSupport{
+class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
   protected override def indexSetting() {
     val batches = entityDao.getAll(classOf[Batch])
@@ -56,20 +56,14 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport{
           "%" + m + "%", "%" + m + "%")
       }
     }
+    get("instructor") foreach { m =>
+      if (!m.isEmpty) {
+        builder.where(
+          "exists(from project.instructors i where i.user.code like :teacherCode or i.user.name like :teacherName)",
+          "%" + m + "%", "%" + m + "%")
+      }
+    }
     builder
-  }
-
-  override def search(): View = {
-    put("projectLevels", entityDao.getAll(classOf[ProjectLevel]))
-    super.search()
-  }
-
-  def updateLevel(): View = {
-    val projects = entityDao.find(classOf[Project], longIds("project"))
-    val level = entityDao.get(classOf[ProjectLevel], intId("level"))
-    projects.foreach(x => x.level = level)
-    entityDao.saveOrUpdate(projects)
-    return redirect("search", "info.save.success")
   }
 
   protected override def editSetting(project: Project) {
@@ -187,6 +181,6 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport{
   }
 
   private def decideContentType(fileName: String): String = {
-    MimeTypes.getMimeType(Strings.substringAfterLast(fileName, "."), MimeTypes.ApplicationOctetStream).toString
+    MediaTypes.get(Strings.substringAfterLast(fileName, "."), MediaTypes.ApplicationOctetStream).toString
   }
 }

@@ -18,20 +18,16 @@
  */
 package org.openurp.edu.innovation.student.web.action
 
-import java.io.ByteArrayInputStream
 import java.time.Instant
 
-import org.beangle.commons.activation.MimeTypes
-import org.beangle.commons.lang.Strings
-import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.beangle.security.Securities
-import org.beangle.webmvc.api.action.{ActionSupport, EntitySupport}
-import org.beangle.webmvc.api.view.{Stream, View}
-import org.beangle.webmvc.entity.helper.PopulateHelper
-import org.openurp.edu.innovation.model.{Attachment, Closure, Material, Project, StageType}
-
 import javax.servlet.http.Part
+import org.beangle.data.dao.OqlBuilder
+import org.beangle.security.Securities
+import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
+import org.beangle.webmvc.entity.helper.PopulateHelper
+import org.openurp.edu.innovation.model._
 
 class ClosureAction extends ActionSupport with EntityAction[Project] with MyProject {
 

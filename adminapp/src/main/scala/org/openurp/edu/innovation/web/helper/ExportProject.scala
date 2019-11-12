@@ -75,6 +75,10 @@ class ExportProject(project: Project) {
     project.discipline.code + project.discipline.name
   }
 
+  def getDepartmentName: String = {
+    project.manager.get.std.state.get.department.name
+  }
+
   def getSummary: String = {
     project.intro.map(_.summary).getOrElse("--")
   }

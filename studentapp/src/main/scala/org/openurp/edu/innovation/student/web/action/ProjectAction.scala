@@ -22,7 +22,7 @@ import java.io.ByteArrayInputStream
 import java.time.Instant
 import java.time.LocalDate
 
-import org.beangle.commons.activation.MimeTypes
+import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
@@ -33,7 +33,6 @@ import org.beangle.webmvc.entity.action.EntityAction
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.Student
 import org.openurp.edu.base.model.Teacher
-import org.openurp.edu.boot.web.ProjectSupport
 import org.openurp.edu.innovation.model.Attachment
 import org.openurp.edu.innovation.model.Batch
 import org.openurp.edu.innovation.model.Intro
@@ -45,6 +44,7 @@ import org.openurp.edu.innovation.model.ProjectState
 import org.openurp.edu.innovation.model.StageType
 import org.openurp.edu.innovation.model.Material
 import javax.servlet.http.Part
+import org.openurp.edu.base.web.ProjectSupport
 
 class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
 

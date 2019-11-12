@@ -15,7 +15,7 @@
     <dependency>
       <groupId>org.openurp.edu</groupId>
       <artifactId>openurp-edu-boot</artifactId>
-      <version>${openurp.edu.boot.version}</version>
+      <version>${openurp.edu.web.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openurp.edu.innovation</groupId>
@@ -28,7 +28,7 @@
     </dependency>
     <dependency>
        <groupId>org.beangle.data</groupId>
-       <artifactId>beangle-data-transfer_2.12</artifactId>
+       <artifactId>beangle-data-transfer_2.13</artifactId>
        <version>${beangle.data.version}</version>
      </dependency>
   </dependencies>

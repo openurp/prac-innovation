@@ -16,14 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.student.web
+package org.openurp.edu.innovation.model
 
-import org.beangle.cdi.bind.BindModule
-import org.openurp.edu.innovation.student.web.action.{ClosureAction, ProjectAction}
+import java.time.Instant
 
-class DefaultModule extends BindModule {
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Updated
 
-  protected override def binding(): Unit = {
-    bind(classOf[ProjectAction], classOf[ClosureAction])
+/** 项目的等级记录
+ *
+ */
+class LevelJounal extends LongId with Updated {
+
+  var year: Int = _
+
+  var project: Project = _
+
+  var level: ProjectLevel = _
+
+  def this(year: Int, project: Project, level: ProjectLevel) {
+    this()
+    this.year = year
+    this.project = project
+    this.level = level
+    this.updatedAt = Instant.now
   }
 }

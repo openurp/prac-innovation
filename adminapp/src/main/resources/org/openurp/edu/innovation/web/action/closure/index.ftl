@@ -6,9 +6,8 @@
     <td class="index_view">
     [#assign defaultBatch=batches?first/]
     [#list batches as b]
-     [#assign stage=b.getStage(closureStage)!/]
-     [#if stage?? && stage.intime]
-      [#assign defaultBatch=b/]
+     [#if b.getStage(closureStage)?? && b.getStage(closureStage).intime]
+      [#assign defaultBatch=b.getStage(closureStage)/]
      [/#if]
     [/#list]
 
