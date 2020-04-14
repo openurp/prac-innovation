@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<cdi>
-  <container name="web">
-    <module class="org.openurp.edu.innovation.student.web.DefaultModule"/>
-    <module class="org.openurp.edu.boot.web.ProjectModule" />
-  </container>
-</cdi>

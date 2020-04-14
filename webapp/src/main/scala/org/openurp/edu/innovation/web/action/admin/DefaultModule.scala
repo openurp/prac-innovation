@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.openurp.edu.innovation.web.action.admin
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, DateRange, Named}
+import org.beangle.cdi.bind.BindModule
 
-class Expert extends LongId with Coded with Named with DateRange {
+class DefaultModule extends BindModule {
 
-  var password: String = _
+  protected override def binding(): Unit = {
+    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction], classOf[ExpertAction])
 
-  var intro: Option[String] = None
-
+    bind(classOf[LevelAction], classOf[ReviewAssignAction], classOf[ReviewGroupAction], classOf[ReviewAction])
+  }
 }

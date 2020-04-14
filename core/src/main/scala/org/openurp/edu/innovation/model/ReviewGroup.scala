@@ -18,13 +18,18 @@
  */
 package org.openurp.edu.innovation.model
 
+import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, DateRange, Named}
+import org.beangle.data.model.pojo.Named
+import org.openurp.code.edu.model.Discipline
 
-class Expert extends LongId with Coded with Named with DateRange {
+import scala.collection.mutable
 
-  var password: String = _
+class ReviewGroup extends LongId with Named {
 
-  var intro: Option[String] = None
+  var batch: Batch = _
 
+  var discipline: Discipline = _
+
+  var experts: mutable.Buffer[Expert] = Collections.newBuffer[Expert]
 }

@@ -19,12 +19,13 @@
 package org.openurp.edu.innovation.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, DateRange, Named}
+import org.beangle.data.model.pojo.Updated
 
-class Expert extends LongId with Coded with Named with DateRange {
-
-  var password: String = _
-
-  var intro: Option[String] = None
-
+class Review extends LongId with Updated {
+  var expert: Expert = _
+  var score: Option[Float] = None
+  var comments: Option[String] = None
+  var level: Option[ProjectLevel] = None
+  var submited: Boolean = _
+  var project: Project = _
 }
