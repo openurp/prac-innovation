@@ -18,8 +18,7 @@
  */
 package org.openurp.edu.innovation.model
 
-import org.beangle.data.orm.MappingModule
-import org.beangle.data.orm.IdGenerator
+import org.beangle.data.orm.{IdGenerator, MappingModule}
 
 class DefaultMapping extends MappingModule {
 
@@ -29,45 +28,68 @@ class DefaultMapping extends MappingModule {
 
     bind[Member]
 
-    bind[Project].on(e => declare(
-      e.members is depends("project"),
-      e.materials is depends("project"),
-      e.instructors is ordered))
+    bind[Project] declare { e =>
+      e.members is depends("project")
+      e.materials is depends("project")
+      e.levels is depends("project")
+      e.reviews is depends("project")
+      e.instructors is ordered
+    }
 
-    bind[Intro].on(e => declare(
-      e.summary is length(500),
-      e.innovation is length(300),
-      e.product is length(300)))
+    bind[Intro] declare { e =>
+      e.summary is length(500)
+      e.innovation is length(300)
+      e.product is length(300)
+    }
 
     bind[ProjectCategory].cacheable()
     bind[ProjectLevel].cacheable()
     bind[ProjectState].cacheable()
+    bind[LevelJounal]
 
-    bind[Batch].on(e => declare(
-      e.stages is depends("batch"))).cacheable()
+    bind[Batch].declare { e =>
+      e.stages is depends("batch")
+    }.cacheable()
 
     bind[Stage].cacheable()
 
-    bind[StageType].on(e => declare(
-      e.children is depends("parent"))).cacheable()
+    bind[StageType].declare { e =>
+      e.children is depends("parent")
+    }.cacheable()
 
-    bind[Section].on(e => declare(
-      e.children is depends("parent"),
-      e.name is length(100),
-      e.remark is length(100)))
+    bind[Section].declare { e =>
+      e.children is depends("parent")
+      e.name is length(100)
+      e.remark is length(100)
+    }
 
-    bind[Template].on(e => declare(
-      e.sections is depends("template")))
+    bind[Template].declare { e =>
+      e.sections is depends("template")
+    }
 
-    bind[Material].on(e => declare(
-      e.fileName is length(200)))
+    bind[Material].declare { e =>
+      e.fileName is length(200)
+    }
 
-    bind[Attachment].on(e => declare(
-      e.content is lob,
-      e.fileName is length(200)))
+    bind[Attachment].declare { e =>
+      e.content is lob
+      e.fileName is length(200)
+    }
 
-    bind[Closure].on(e => declare(
-      e.exemptionReason is length(200)))
+    bind[Closure].declare { e =>
+      e.exemptionReason is length(200)
+    }
 
+    bind[Expert].declare { e =>
+      e.name is length(50)
+      e.code is length(20)
+      e.intro is length(300)
+    }
+
+    bind[ReviewGroup]
+
+    bind[Review].declare { e =>
+      e.comments is length(600)
+    }
   }
 }

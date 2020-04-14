@@ -18,13 +18,16 @@
  */
 package org.openurp.edu.innovation.model
 
+import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
+
+import scala.collection.mutable
 
 /**
  * 项目结项
  */
-class Closure extends LongId with Updated{
+class Closure extends LongId with Updated {
   var project: Project = _
 
   var applyExemptionReply: Boolean = _

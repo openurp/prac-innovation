@@ -20,10 +20,12 @@ package org.openurp.edu.innovation.model
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{ Remark, TemporalOn }
+import org.beangle.data.model.pojo.{Remark, TemporalOn}
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.Teacher
+
+import scala.collection.mutable
 
 /**
  * 项目
@@ -33,44 +35,53 @@ class Project extends LongId with TemporalOn with Remark {
   /** 项目编号 */
   var code: Option[String] = _
 
-  /**批次*/
+  /** 批次 */
   var batch: Batch = _
 
-  /**项目名称*/
+  /** 项目名称 */
   var title: String = _
 
-  /**成员*/
+  /** 成员 */
   var members = Collections.newBuffer[Member]
 
-  /**材料*/
+  /** 材料 */
   var materials = Collections.newBuffer[Material]
 
-  /**院系*/
+  /** 院系 */
   var department: Department = _
 
-  /**申请人*/
+  /** 申请人 */
   var manager: Option[Member] = None
 
-  /**项目级别*/
-  var level: Option[ProjectLevel] = None
+  /** 项目级别 */
+  var level: ProjectLevel = _
 
-  /**项目类型*/
+  /** 等级记录 */
+  var levels: mutable.Buffer[LevelJounal] = Collections.newBuffer[LevelJounal]
+
+  /** 项目类型 */
   var category: ProjectCategory = _
 
-  /**学科*/
+  /** 学科 */
   var discipline: Discipline = _
 
-  /**指导老师*/
+  /** 指导老师 */
   var instructors = Collections.newBuffer[Teacher]
 
-  /**状态*/
+  /** 状态 */
   var state: ProjectState = _
 
-  /**简介*/
+  /** 简介 */
   var intro: Option[Intro] = None
 
-  /**经费*/
+  /** 经费 */
   var funds: Int = _
+
+  var reviewScore: Option[Float] = None
+
+  var reviewGroup: Option[ReviewGroup] = None
+
+  var reviews: mutable.Buffer[Review] = Collections.newBuffer[Review]
 
   def closureMaterial: Option[Material] = {
     materials.find(_.stageType.id == StageType.Closure)
