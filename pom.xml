@@ -8,7 +8,7 @@
   </parent>
   <groupId>org.openurp.edu.innovation</groupId>
   <artifactId>openurp-edu-innovation-web-parent</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <packaging>pom</packaging>
   <name>OpenURP Edu Innovation Web Parent</name>
 
@@ -20,7 +20,7 @@
   <properties>
     <openurp.app.version>0.1.33</openurp.app.version>
     <openurp.api.version>0.13.1</openurp.api.version>
-    <openurp.edu.web.version>0.0.36</openurp.edu.web.version>
+    <openurp.edu.web.version>0.0.37</openurp.edu.web.version>
   </properties>
 
 </project>
