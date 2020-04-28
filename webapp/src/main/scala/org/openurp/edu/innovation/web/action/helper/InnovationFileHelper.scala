@@ -16,24 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.openurp.edu.innovation.web.action.helper
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Named
-import org.beangle.data.model.pojo.Updated
+import java.io.{File, InputStream}
 
-class Material extends LongId with Updated {
-  var project: Project = _
-  var stageType: StageType = _
-  var fileName: String = _
-  var size: Int = _
-  var sha: String = _
-  var path: String = _
+import org.beangle.blob.model.{BlobMeta, Uploader}
+import org.openurp.app.Urp
 
-  def this(project: Project, stageType: StageType) {
-    this()
-    this.project = project
-    this.stageType = stageType
-    project.materials += (this)
+object InnovationFileHelper {
+
+  val uploader = new Uploader(Urp.home + "/blobs", "edu", "innovation")
+
+  def remove(path: String): Unit = {
+    uploader.remove(path)
+  }
+
+  def get(path: String): Option[File] = {
+    uploader.get(path)
+  }
+
+  def upload(batch: String, name: String, is: InputStream): BlobMeta = {
+    uploader.upload(batch, name, is)
   }
 }

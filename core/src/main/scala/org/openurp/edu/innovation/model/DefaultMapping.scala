@@ -71,11 +71,6 @@ class DefaultMapping extends MappingModule {
       e.fileName is length(200)
     }
 
-    bind[Attachment].declare { e =>
-      e.content is lob
-      e.fileName is length(200)
-    }
-
     bind[Closure].declare { e =>
       e.exemptionReason is length(200)
     }

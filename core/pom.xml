@@ -13,6 +13,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.beangle.commons</groupId>
+      <artifactId>beangle-commons-file_2.13</artifactId>
+      <version>${beangle.commons.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.openurp.edu.base</groupId>
       <artifactId>openurp-edu-base-api</artifactId>
       <version>${openurp.api.version}</version>

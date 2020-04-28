@@ -18,7 +18,6 @@
  */
 package org.openurp.edu.innovation.web.action.expert
 
-import java.io.ByteArrayInputStream
 import java.time.{Instant, LocalDate}
 
 import org.beangle.commons.activation.MediaTypes
@@ -28,9 +27,10 @@ import org.beangle.commons.web.util.{CookieUtils, RequestUtils}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.action.ServletSupport
 import org.beangle.webmvc.api.annotation.param
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.{Status, Stream, View}
 import org.beangle.webmvc.entity.action.EntityAction
 import org.openurp.edu.innovation.model._
+import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 class ReviewAction extends EntityAction[Review] with ServletSupport {
 
@@ -133,9 +133,10 @@ class ReviewAction extends EntityAction[Review] with ServletSupport {
       } else {
         materials.find(_.stageType.id == StageType.Closure) match {
           case Some(material) =>
-            val attachment = material.attachment
-            Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-              attachment.fileName)
+            InnovationFileHelper.get(material.path) match {
+              case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
+              case None => Status.NotFound
+            }
           case None => null
         }
       }

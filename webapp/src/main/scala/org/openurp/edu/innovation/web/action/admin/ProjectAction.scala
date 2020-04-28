@@ -18,22 +18,25 @@
  */
 package org.openurp.edu.innovation.web.action.admin
 
-import java.io.ByteArrayInputStream
+import java.io.{ByteArrayInputStream, File, FileOutputStream}
 import java.time.LocalDate
 
 import org.beangle.commons.activation.MediaTypes
+import org.beangle.commons.codec.digest.Digests
+import org.beangle.commons.io.{Files, IOs}
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.{Status, Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
+import org.openurp.app.Urp
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
 import org.openurp.edu.base.web.ProjectSupport
 import org.openurp.edu.innovation.model._
-import org.openurp.edu.innovation.web.action.helper.ExportProject
+import org.openurp.edu.innovation.web.action.helper.{ExportProject, InnovationFileHelper}
 
 class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
@@ -175,9 +178,10 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
   def attachment(): View = {
     val material = entityDao.get(classOf[Material], longId("material"))
-    val attachment = material.attachment
-    Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-      attachment.fileName)
+    InnovationFileHelper.get(material.path) match {
+      case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
+      case None => Status.NotFound
+    }
   }
 
   private def decideContentType(fileName: String): String = {

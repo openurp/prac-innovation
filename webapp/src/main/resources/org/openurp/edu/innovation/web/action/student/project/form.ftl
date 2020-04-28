@@ -34,7 +34,7 @@
     [@b.textarea name="intro.innovation" label="创新点和难点" value=(project.intro.innovation)! required="true" rows="5" cols="100" maxlength="200" comment="100字以内"/]
     [@b.textarea name="intro.product" label="预期成果" value=(project.intro.product)! required="true" rows="5" cols="100" maxlength="200" comment="100字以内"/]
     [@b.field  label="立项材料"]<input type="file" name="attachment"/>
-      [#list project.materials as m][#if m.stageType==initialStage.stageType][@b.a target="_blank" href="!attachment?attachment.id="+m.attachment.id]${m.fileName}[/@][/#if][/#list]
+      [#list project.materials as m][#if m.stageType==initialStage.stageType][@b.a target="_blank" href="!attachment?material.id="+m.id]${m.fileName}[/@][/#if][/#list]
     [/@]
     [@b.textfield name="project.remark" label="备注" value="${project.remark!}"  maxlength="100"/]
     [@b.formfoot]

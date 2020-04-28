@@ -28,6 +28,7 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
 import org.beangle.webmvc.entity.helper.PopulateHelper
 import org.openurp.edu.innovation.model._
+import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 class ClosureAction extends ActionSupport with EntityAction[Project] with MyProject {
 
@@ -89,14 +90,16 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with MyProj
             case None => new Material(project, closureStage)
             case Some(m) => m
           }
-        val attachment = material.attachment
         val part = getAll("attachment", classOf[Part]).head
         val fileName = part.getSubmittedFileName
         val now = Instant.now
         material.fileName = fileName
         material.updatedAt = now
-        attachment.merge(Attachment(part.getSubmittedFileName, part.getInputStream))
-        entityDao.saveOrUpdate(attachment)
+        val meta = InnovationFileHelper.upload(project.batch.beginOn.getYear.toString, part.getSubmittedFileName, part.getInputStream)
+        material.size = meta.size
+        material.sha = meta.sha
+        material.path = meta.path
+        entityDao.saveOrUpdate(material)
       }
       closure.updatedAt = Instant.now
       entityDao.saveOrUpdate(project, closure)

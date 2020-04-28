@@ -31,6 +31,7 @@ import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
 import org.openurp.edu.base.web.ProjectSupport
 import org.openurp.edu.innovation.model._
+import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
 
@@ -82,7 +83,7 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     val stds = entityDao.search(stdQuery)
 
     project.department = stds.head.state.get.department
-    project.level=new ProjectLevel(ProjectLevel.School)
+    project.level = new ProjectLevel(ProjectLevel.School)
     entityDao.saveOrUpdate(project)
 
     project.instructors.clear()
@@ -124,19 +125,21 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
 
     val parts = getAll("attachment", classOf[Part])
     if (parts.size > 0 && parts.head.getSize > 0) {
-       val material =
+      val material =
         project.materials.find(_.stageType == initialStageType) match {
           case None => new Material(project, initialStageType)
           case Some(m) => m
         }
-      val attachment = material.attachment
       val part = getAll("attachment", classOf[Part]).head
       val fileName = part.getSubmittedFileName
       val now = Instant.now
       material.fileName = fileName
       material.updatedAt = now
-      attachment.merge(Attachment(part.getSubmittedFileName, part.getInputStream))
-      entityDao.saveOrUpdate(attachment)
+      val meta = InnovationFileHelper.upload(project.batch.beginOn.getYear.toString, part.getSubmittedFileName, part.getInputStream)
+      material.size = meta.size
+      material.sha = meta.sha
+      material.path=meta.path
+      entityDao.saveOrUpdate(material)
     }
 
     redirect("index", "&batch.id=" + project.batch.id, "info.save.success")

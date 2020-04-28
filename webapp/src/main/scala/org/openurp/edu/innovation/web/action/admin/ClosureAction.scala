@@ -18,16 +18,15 @@
  */
 package org.openurp.edu.innovation.web.action.admin
 
-import java.io.ByteArrayInputStream
-
 import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.{Status, Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.edu.innovation.model._
+import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 class ClosureAction extends RestfulAction[Closure] {
 
@@ -58,8 +57,11 @@ class ClosureAction extends RestfulAction[Closure] {
 
   @ignore
   protected override def removeAndRedirect(entities: Seq[Closure]): View = {
-    val attachments = entities.flatten(_.project.closureMaterial).map(_.attachment)
-    remove(entities, attachments)
+    val materials = entities.flatten(_.project.closureMaterial)
+    remove(entities, materials)
+    materials foreach { m =>
+      InnovationFileHelper.remove(m.path)
+    }
     redirect("search", "info.remove.success")
   }
 
@@ -85,9 +87,10 @@ class ClosureAction extends RestfulAction[Closure] {
     } else {
       materials.find(_.stageType.id == StageType.Closure) match {
         case Some(material) =>
-          val attachment = material.attachment
-          Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-            attachment.fileName)
+          InnovationFileHelper.get(material.path) match {
+            case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
+            case None => Status.NotFound
+          }
         case None => null
       }
     }

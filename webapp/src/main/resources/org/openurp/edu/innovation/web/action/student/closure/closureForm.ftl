@@ -46,7 +46,7 @@
        [/@]
       [/#if]
       [@b.field  label="结项材料"]<input type="file" name="attachment"/>
-        [#list project.materials as m][#if m.stageType==closureStage][@b.a target="_blank" href="!attachment?attachment.id="+m.attachment.id]${m.fileName}[/@][/#if][/#list]
+        [#list project.materials as m][#if m.stageType==closureStage][@b.a target="_blank" href="!attachment?material.id="+m.id]${m.fileName}[/@][/#if][/#list]
       [/@]
     [/#if]
     [@b.formfoot]

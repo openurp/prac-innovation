@@ -18,21 +18,22 @@
  */
 package org.openurp.edu.innovation.web.action.student
 
-import java.io.ByteArrayInputStream
-
 import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.{Status, Stream, View}
 import org.beangle.webmvc.entity.action.EntityAction
-import org.openurp.edu.innovation.model.{Attachment, Project, StageType}
+import org.openurp.edu.innovation.model.{Material, Project, StageType}
+import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 trait MyProject {
   self: EntityAction[_] =>
 
   def attachment(): View = {
-    val attachment = entityDao.get(classOf[Attachment], longId("attachment"))
-    Stream(new ByteArrayInputStream(attachment.content), decideContentType(attachment.fileName),
-      attachment.fileName)
+    val material = entityDao.get(classOf[Material], longId("material"))
+    InnovationFileHelper.get(material.path) match {
+      case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
+      case None => Status.NotFound
+    }
   }
 
   private def decideContentType(fileName: String): String = {

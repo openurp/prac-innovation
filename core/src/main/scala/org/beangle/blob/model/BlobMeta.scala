@@ -16,43 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.model
+package org.beangle.blob.model
 
-import java.io.{ByteArrayOutputStream, InputStream}
-import java.time.Instant
-
-import org.beangle.commons.io.IOs
-import org.beangle.commons.lang.Strings
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
-object Attachment1 {
-  def apply(name: String, is: InputStream): Attachment1 = {
-    val a = new Attachment1
-    a.fileName = name
+class BlobMeta extends LongId with Updated {
+  var name: String = _
 
-    val buf = new ByteArrayOutputStream
-    IOs.copy(is, buf)
-    a.content = buf.toByteArray()
-    a.size = a.content.length
-    a.updatedAt = Instant.now
-    a
-  }
-}
-
-class Attachment1 extends LongId with Updated {
   var size: Int = _
-  var content: Array[Byte] = _
-  var fileName: String = _
 
-  def ext: String = {
-    Strings.substringAfterLast(fileName, ".")
-  }
+  var sha: String = _
 
-  def merge(newer: Attachment1): Unit = {
-    this.size = newer.size
-    this.fileName = newer.fileName
-    this.content = newer.content
-    this.updatedAt = newer.updatedAt
-  }
+  var mediaType: String = _
+
+  var path: String = _
 }
