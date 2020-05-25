@@ -23,14 +23,14 @@ import java.time.Instant
 import javax.servlet.http.Part
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
 import org.beangle.webmvc.entity.helper.PopulateHelper
+import org.openurp.app.UrpApp
 import org.openurp.edu.innovation.model._
-import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
-class ClosureAction extends ActionSupport with EntityAction[Project] with MyProject {
+class ClosureAction extends ActionSupport with EntityAction[Project] with ServletSupport with MyProject {
 
   def index(): View = {
     val user = Securities.user;
@@ -95,7 +95,13 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with MyProj
         val now = Instant.now
         material.fileName = fileName
         material.updatedAt = now
-        val meta = InnovationFileHelper.upload(project.batch.beginOn.getYear.toString, part.getSubmittedFileName, part.getInputStream)
+        val blob = UrpApp.getBlobRepository(true)
+        if (null != material.path) {
+          blob.remove(material.path)
+        }
+        val me = project.manager.get.std
+        val meta = blob.upload("/" + project.batch.beginOn.getYear.toString, part.getInputStream, part.getSubmittedFileName,
+          me.user.code + " " + me.user.name)
         material.size = meta.size
         material.sha = meta.sha
         material.path = meta.path

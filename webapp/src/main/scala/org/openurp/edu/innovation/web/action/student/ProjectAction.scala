@@ -24,14 +24,14 @@ import javax.servlet.http.Part
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
+import org.openurp.app.UrpApp
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
 import org.openurp.edu.base.web.ProjectSupport
 import org.openurp.edu.innovation.model._
-import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
 
@@ -82,7 +82,8 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     val stdQuery = OqlBuilder.from(classOf[Student], "s").where("s.user.code=:code", Securities.user)
     val stds = entityDao.search(stdQuery)
 
-    project.department = stds.head.state.get.department
+    val me = stds.head
+    project.department = me.state.get.department
     project.level = new ProjectLevel(ProjectLevel.School)
     entityDao.saveOrUpdate(project)
 
@@ -135,10 +136,15 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       val now = Instant.now
       material.fileName = fileName
       material.updatedAt = now
-      val meta = InnovationFileHelper.upload(project.batch.beginOn.getYear.toString, part.getSubmittedFileName, part.getInputStream)
+      val blob = UrpApp.getBlobRepository(true)
+      if (null != material.path) {
+        blob.remove(material.path)
+      }
+      val meta = blob.upload("/" + project.batch.beginOn.getYear.toString, part.getInputStream, part.getSubmittedFileName,
+        me.user.code + " " + me.user.name)
       material.size = meta.size
       material.sha = meta.sha
-      material.path=meta.path
+      material.path = meta.path
       entityDao.saveOrUpdate(material)
     }
 

@@ -18,17 +18,16 @@
  */
 package org.openurp.edu.innovation.web.action.admin
 
-import org.beangle.commons.activation.MediaTypes
-import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.webmvc.api.action.ServletSupport
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{Status, Stream, View}
+import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
+import org.openurp.app.UrpApp
 import org.openurp.base.model.Department
 import org.openurp.edu.innovation.model._
-import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
-class ClosureAction extends RestfulAction[Closure] {
+class ClosureAction extends RestfulAction[Closure] with ServletSupport {
 
   protected override def indexSetting(): Unit = {
     val batches = entityDao.search(OqlBuilder.from(classOf[Batch], "b").orderBy("b.beginOn desc"))
@@ -59,8 +58,9 @@ class ClosureAction extends RestfulAction[Closure] {
   protected override def removeAndRedirect(entities: Seq[Closure]): View = {
     val materials = entities.flatten(_.project.closureMaterial)
     remove(entities, materials)
+    val repo = UrpApp.getBlobRepository(true)
     materials foreach { m =>
-      InnovationFileHelper.remove(m.path)
+      repo.remove(m.path)
     }
     redirect("search", "info.remove.success")
   }
@@ -87,10 +87,9 @@ class ClosureAction extends RestfulAction[Closure] {
     } else {
       materials.find(_.stageType.id == StageType.Closure) match {
         case Some(material) =>
-          InnovationFileHelper.get(material.path) match {
-            case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
-            case None => Status.NotFound
-          }
+          val path = UrpApp.getBlobRepository(true).url(material.path)
+          response.sendRedirect(path.get.toString)
+          null
         case None => null
       }
     }
@@ -98,13 +97,10 @@ class ClosureAction extends RestfulAction[Closure] {
 
   def audit(): View = {
     val id = longId("closure")
-    var entity = getModel(id)
+    val entity = getModel(id)
     editSetting(entity)
     put(simpleEntityName, entity)
     forward()
   }
 
-  private def decideContentType(fileName: String): String = {
-    MediaTypes.get(Strings.substringAfterLast(fileName, "."), MediaTypes.ApplicationOctetStream).toString
-  }
 }

@@ -53,6 +53,7 @@
 [/@]
 
 <script>
+  bg.load(["jquery-chosen"],function(){
   jQuery("#instructorId").ajaxChosen(
     {
         method: 'GET',
@@ -69,12 +70,7 @@
     {width:"400px"}
   );
 
-    jQuery("#studentId").ajaxChosen(
-    {
-        method: 'GET',
-        url:  "${b.url('!student?pageNo=1&pageSize=10')}"
-    }
-    , function (data) {
+    jQuery("#studentId").ajaxChosen({ method: 'GET', url:  "${b.url('!student?pageNo=1&pageSize=10')}"}, function (data) {
         var items = {};
         var dataObj = eval("(" + data + ")");
         jQuery.each(dataObj.students, function (i, student) {
@@ -84,11 +80,16 @@
     },
     {width:"400px"}
   );
+  });
 
    function checkProject(form){
     if("" == form['attachment'].value){
       alert("请上传立项材料");
       return false;
+    }
+    if(!$("#instructorId").val()){
+       alert("请选择指导老师");
+       return false;
     }
     return true;
   }

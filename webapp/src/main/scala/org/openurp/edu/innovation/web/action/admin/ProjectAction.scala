@@ -18,25 +18,22 @@
  */
 package org.openurp.edu.innovation.web.action.admin
 
-import java.io.{ByteArrayInputStream, File, FileOutputStream}
+import java.io.FileInputStream
 import java.time.LocalDate
 
-import org.beangle.commons.activation.MediaTypes
-import org.beangle.commons.codec.digest.Digests
-import org.beangle.commons.io.{Files, IOs}
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
 import org.beangle.webmvc.api.annotation.ignore
-import org.beangle.webmvc.api.view.{Status, Stream, View}
+import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.app.Urp
+import org.openurp.app.UrpApp
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
 import org.openurp.edu.base.web.ProjectSupport
 import org.openurp.edu.innovation.model._
-import org.openurp.edu.innovation.web.action.helper.{ExportProject, InnovationFileHelper}
+import org.openurp.edu.innovation.web.action.helper.ExportProject
 
 class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
@@ -178,13 +175,19 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
   def attachment(): View = {
     val material = entityDao.get(classOf[Material], longId("material"))
-    InnovationFileHelper.get(material.path) match {
-      case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
-      case None => Status.NotFound
-    }
+    val path = UrpApp.getBlobRepository(true).url(material.path)
+    response.sendRedirect(path.get.toString)
+    null
   }
 
-  private def decideContentType(fileName: String): String = {
-    MediaTypes.get(Strings.substringAfterLast(fileName, "."), MediaTypes.ApplicationOctetStream).toString
+  override def removeAndRedirect(projects: Seq[Project]): View = {
+    val repo = UrpApp.getBlobRepository(true)
+    projects foreach { project =>
+      project.materials foreach { material =>
+        repo.remove(material.path)
+      }
+    }
+    super.removeAndRedirect(projects)
   }
+
 }

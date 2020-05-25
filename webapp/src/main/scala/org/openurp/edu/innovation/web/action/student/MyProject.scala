@@ -20,24 +20,20 @@ package org.openurp.edu.innovation.web.action.student
 
 import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.lang.Strings
-import org.beangle.webmvc.api.view.{Status, Stream, View}
+import org.beangle.webmvc.api.action.ServletSupport
+import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
+import org.openurp.app.UrpApp
 import org.openurp.edu.innovation.model.{Material, Project, StageType}
-import org.openurp.edu.innovation.web.action.helper.InnovationFileHelper
 
 trait MyProject {
-  self: EntityAction[_] =>
+  self: EntityAction[_] with ServletSupport =>
 
   def attachment(): View = {
     val material = entityDao.get(classOf[Material], longId("material"))
-    InnovationFileHelper.get(material.path) match {
-      case Some(f) => Stream(f, decideContentType(material.fileName), material.fileName)
-      case None => Status.NotFound
-    }
-  }
-
-  private def decideContentType(fileName: String): String = {
-    MediaTypes.get(Strings.substringAfterLast(fileName, "."), MediaTypes.ApplicationOctetStream).toString
+    val path = UrpApp.getBlobRepository(true).url(material.path)
+    response.sendRedirect(path.get.toString)
+    null
   }
 
   def isIntime(project: Project, stageTypeId: Int): Boolean = {
