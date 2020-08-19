@@ -23,8 +23,7 @@ import org.beangle.cdi.bind.BindModule
 class DefaultModule extends BindModule {
 
   protected override def binding(): Unit = {
-    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ClosureAction], classOf[ExpertAction])
-
-    bind(classOf[LevelAction], classOf[ReviewAssignAction], classOf[ReviewGroupAction], classOf[ReviewAction])
+    bind(classOf[ProjectAction], classOf[BatchAction], classOf[ExpertAction])
+    bind(classOf[LevelAction])
   }
 }

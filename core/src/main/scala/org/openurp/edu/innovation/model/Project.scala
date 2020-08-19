@@ -77,12 +77,6 @@ class Project extends LongId with TemporalOn with Remark {
   /** 经费 */
   var funds: Int = _
 
-  var reviewScore: Option[Float] = None
-
-  var reviewGroup: Option[ReviewGroup] = None
-
-  var reviews: mutable.Buffer[Review] = Collections.newBuffer[Review]
-
   def closureMaterial: Option[Material] = {
     materials.find(_.stageType.id == StageType.Closure)
   }

@@ -24,14 +24,14 @@ import java.time.LocalDate
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportSetting
+import org.beangle.ems.app.EmsApp
 import org.beangle.webmvc.api.annotation.ignore
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.app.UrpApp
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
-import org.openurp.edu.base.web.ProjectSupport
+import org.openurp.edu.web.ProjectSupport
 import org.openurp.edu.innovation.model._
 import org.openurp.edu.innovation.web.action.helper.ExportProject
 
@@ -175,13 +175,13 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 
   def attachment(): View = {
     val material = entityDao.get(classOf[Material], longId("material"))
-    val path = UrpApp.getBlobRepository(true).url(material.path)
+    val path = EmsApp.getBlobRepository(true).url(material.path)
     response.sendRedirect(path.get.toString)
     null
   }
 
   override def removeAndRedirect(projects: Seq[Project]): View = {
-    val repo = UrpApp.getBlobRepository(true)
+    val repo = EmsApp.getBlobRepository(true)
     projects foreach { project =>
       project.materials foreach { material =>
         repo.remove(material.path)

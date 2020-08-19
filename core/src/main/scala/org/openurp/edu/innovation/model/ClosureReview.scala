@@ -16,14 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.web.action.expert
+package org.openurp.edu.innovation.model
 
-import org.beangle.cdi.bind.BindModule
+import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
 
-class DefaultModule extends BindModule {
+import scala.collection.mutable
 
-  protected override def binding(): Unit = {
-    bind(classOf[InitReviewAction])
-    bind(classOf[ClosureReviewAction])
-  }
+class ClosureReview extends LongId {
+
+  var project: Project = _
+
+  var score: Option[Float] = None
+
+  var group: Option[ClosureReviewGroup] = None
+
+  var details: mutable.Buffer[ClosureReviewDetail] = Collections.newBuffer[ClosureReviewDetail]
 }

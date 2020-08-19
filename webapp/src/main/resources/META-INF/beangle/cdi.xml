@@ -2,6 +2,8 @@
 <cdi>
   <container name="web">
     <module class="org.openurp.edu.innovation.web.action.admin.DefaultModule"/>
+    <module class="org.openurp.edu.innovation.web.action.admin.init.DefaultModule"/>
+    <module class="org.openurp.edu.innovation.web.action.admin.close.DefaultModule"/>
     <module class="org.openurp.edu.innovation.web.action.expert.DefaultModule"/>
     <module class="org.openurp.edu.innovation.web.action.student.DefaultModule"/>
     <module class="org.openurp.edu.boot.web.ProjectModule" />

@@ -18,12 +18,10 @@
  */
 package org.openurp.edu.innovation.web.action.student
 
-import org.beangle.commons.activation.MediaTypes
-import org.beangle.commons.lang.Strings
+import org.beangle.ems.app.EmsApp
 import org.beangle.webmvc.api.action.ServletSupport
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
-import org.openurp.app.UrpApp
 import org.openurp.edu.innovation.model.{Material, Project, StageType}
 
 trait MyProject {
@@ -31,7 +29,7 @@ trait MyProject {
 
   def attachment(): View = {
     val material = entityDao.get(classOf[Material], longId("material"))
-    val path = UrpApp.getBlobRepository(true).url(material.path)
+    val path = EmsApp.getBlobRepository(true).url(material.path)
     response.sendRedirect(path.get.toString)
     null
   }

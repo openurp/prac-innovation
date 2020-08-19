@@ -23,14 +23,14 @@ import java.time.{Instant, LocalDate}
 import javax.servlet.http.Part
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
 import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
-import org.openurp.app.UrpApp
 import org.openurp.code.edu.model.Discipline
 import org.openurp.edu.base.model.{Student, Teacher}
-import org.openurp.edu.base.web.ProjectSupport
+import org.openurp.edu.web.ProjectSupport
 import org.openurp.edu.innovation.model._
 
 class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
@@ -136,7 +136,7 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       val now = Instant.now
       material.fileName = fileName
       material.updatedAt = now
-      val blob = UrpApp.getBlobRepository(true)
+      val blob = EmsApp.getBlobRepository(true)
       if (null != material.path) {
         blob.remove(material.path)
       }

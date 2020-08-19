@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.web.action.expert
+package org.openurp.edu.innovation.web.action.admin.init
 
 import org.beangle.cdi.bind.BindModule
 
 class DefaultModule extends BindModule {
 
   protected override def binding(): Unit = {
-    bind(classOf[InitReviewAction])
-    bind(classOf[ClosureReviewAction])
+    bind(classOf[ReviewDetailAction], classOf[InitReviewAction], classOf[ReviewGroupAction])
   }
 }

@@ -1,9 +1,8 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="项目管理"/]
-<table class="indexpanel">
-  <tr>
-    <td class="index_view">
+<div class="search-container">
+    <div class="search-panel" >
     [@b.form name="projectSearchForm" action="!search" target="projectlist" title="ui.searchForm" theme="search"]
       [@b.select style="width:100px" name="project.batch.id" label="立项年度" items=batches/]
       [@b.textfields names="project.code;编号"/]
@@ -17,9 +16,8 @@
 
       <input type="hidden" name="orderBy" value="project.code,project.id"/>
     [/@]
-    </td>
-    <td class="index_content">[@b.div id="projectlist" href="!search?orderBy=project.code asc,project.id&project.batch.id="+batches?first.id/]
-    </td>
-  </tr>
-</table>
+    </div>
+    <div class="search-list">[@b.div id="projectlist" href="!search?orderBy=project.code asc,project.id&project.batch.id="+batches?first.id/]
+    </div>
+  </div>
 [@b.foot/]

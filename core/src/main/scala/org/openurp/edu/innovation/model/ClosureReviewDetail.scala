@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.web.action.expert
+package org.openurp.edu.innovation.model
 
-import org.beangle.cdi.bind.BindModule
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Updated
 
-class DefaultModule extends BindModule {
-
-  protected override def binding(): Unit = {
-    bind(classOf[InitReviewAction])
-    bind(classOf[ClosureReviewAction])
-  }
+class ClosureReviewDetail extends LongId with Updated {
+  var expert: Expert = _
+  var score: Option[Float] = None
+  var comments: Option[String] = None
+  var level: Option[ProjectLevel] = None
+  var submited: Boolean = _
+  var review: ClosureReview = _
 }

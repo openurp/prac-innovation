@@ -16,14 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.openurp.edu.innovation.web.action.expert
+package org.openurp.edu.innovation.model
 
-import org.beangle.cdi.bind.BindModule
+import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Named
+import org.openurp.code.edu.model.Discipline
 
-class DefaultModule extends BindModule {
+import scala.collection.mutable
 
-  protected override def binding(): Unit = {
-    bind(classOf[InitReviewAction])
-    bind(classOf[ClosureReviewAction])
-  }
+class InitReviewGroup extends LongId with Named {
+
+  var batch: Batch = _
+
+  var discipline: Discipline = _
+
+  var experts: mutable.Buffer[Expert] = Collections.newBuffer[Expert]
 }

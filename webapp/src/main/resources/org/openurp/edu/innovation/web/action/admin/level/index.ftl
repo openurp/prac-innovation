@@ -1,9 +1,8 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="项目级别管理"/]
-<table class="indexpanel">
-  <tr>
-    <td class="index_view">
+<div class="search-container">
+    <div class="search-panel" >
     [#assign yearMap={}/]
     [#list years as y]
     [#assign yearMap={y?string:y} + yearMap/]
@@ -21,9 +20,8 @@
       [@b.select style="width:100px" name="level.id" label="获奖级别" items=projectLevels empty="..." /]
       <input type="hidden" name="orderBy" value="project.code,project.id"/>
     [/@]
-    </td>
-    <td class="index_content">[@b.div id="projectlist" href="!search?orderBy=project.code asc,project.id"/]
-    </td>
-  </tr>
-</table>
+    </div>
+    <div class="search-list">[@b.div id="projectlist" href="!search?orderBy=project.code asc,project.id"/]
+    </div>
+  </div>
 [@b.foot/]

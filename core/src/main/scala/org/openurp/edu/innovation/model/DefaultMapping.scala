@@ -23,7 +23,6 @@ import org.beangle.data.orm.{IdGenerator, MappingModule}
 class DefaultMapping extends MappingModule {
 
   def binding(): Unit = {
-    defaultIdGenerator(IdGenerator.AutoIncrement)
     defaultCache("openurp.innovation", "read-write")
 
     bind[Member]
@@ -32,7 +31,6 @@ class DefaultMapping extends MappingModule {
       e.members is depends("project")
       e.materials is depends("project")
       e.levels is depends("project")
-      e.reviews is depends("project")
       e.instructors is ordered
     }
 
@@ -81,9 +79,19 @@ class DefaultMapping extends MappingModule {
       e.intro is length(300)
     }
 
-    bind[ReviewGroup]
+    bind[InitReviewGroup]
+    bind[InitReview].declare { e =>
+      e.details is depends("review")
+    }
+    bind[InitReviewDetail].declare { e =>
+      e.comments is length(600)
+    }
 
-    bind[Review].declare { e =>
+    bind[ClosureReviewGroup]
+    bind[ClosureReview].declare { e =>
+      e.details is depends("review")
+    }
+    bind[ClosureReviewDetail].declare { e =>
       e.comments is length(600)
     }
   }
