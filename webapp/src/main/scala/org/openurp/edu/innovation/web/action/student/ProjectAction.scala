@@ -20,7 +20,7 @@ package org.openurp.edu.innovation.web.action.student
 
 import java.time.{Instant, LocalDate}
 
-import javax.servlet.http.Part
+import jakarta.servlet.http.Part
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.EmsApp
@@ -142,9 +142,9 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       }
       val meta = blob.upload("/" + project.batch.beginOn.getYear.toString, part.getInputStream, part.getSubmittedFileName,
         me.user.code + " " + me.user.name)
-      material.size = meta.size
+      material.size = meta.fileSize
       material.sha = meta.sha
-      material.path = meta.path
+      material.path = meta.filePath
       entityDao.saveOrUpdate(material)
     }
 

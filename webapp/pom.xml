@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.openurp.edu.innovation</groupId>
     <artifactId>openurp-edu-innovation-web-parent</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>openurp-edu-innovation-webapp</artifactId>
@@ -26,8 +26,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
     <dependency>
        <groupId>org.beangle.data</groupId>
