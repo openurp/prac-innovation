@@ -6,11 +6,11 @@
     <artifactId>openurp-parent</artifactId>
     <version>0.4.4</version>
   </parent>
-  <groupId>org.openurp.edu.innovation</groupId>
-  <artifactId>openurp-edu-innovation-web-parent</artifactId>
+  <groupId>org.openurp.prac.innovation</groupId>
+  <artifactId>openurp-prac-innovation-web-parent</artifactId>
   <version>0.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>OpenURP Edu Innovation Web Parent</name>
+  <name>OpenURP Prac Innovation Web Parent</name>
 
   <modules>
     <module>core</module>
@@ -18,8 +18,8 @@
   </modules>
 
   <properties>
-    <openurp.api.version>0.18.1</openurp.api.version>
-    <openurp.edu.web.version>0.1.8</openurp.edu.web.version>
+    <openurp.api.version>0.22.0</openurp.api.version>
+    <openurp.boot.version>0.0.4</openurp.boot.version>
   </properties>
 
 </project>

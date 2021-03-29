@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <parent>
-    <groupId>org.openurp.edu.innovation</groupId>
-    <artifactId>openurp-edu-innovation-web-parent</artifactId>
+    <groupId>org.openurp.prac.innovation</groupId>
+    <artifactId>openurp-prac-innovation-web-parent</artifactId>
     <version>0.0.6-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>openurp-edu-innovation-core</artifactId>
+  <artifactId>openurp-prac-innovation-core</artifactId>
   <packaging>jar</packaging>
-  <name>Openurp Edu Innovation Core</name>
+  <name>Openurp Prac Innovation Core</name>
 
   <dependencies>
     <dependency>
@@ -17,8 +17,8 @@
       <version>${beangle.commons.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.base</groupId>
-      <artifactId>openurp-edu-base-api</artifactId>
+      <groupId>org.openurp.base</groupId>
+      <artifactId>openurp-base-api</artifactId>
       <version>${openurp.api.version}</version>
     </dependency>
     <dependency>

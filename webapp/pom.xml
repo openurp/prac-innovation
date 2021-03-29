@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <parent>
-    <groupId>org.openurp.edu.innovation</groupId>
-    <artifactId>openurp-edu-innovation-web-parent</artifactId>
+    <groupId>org.openurp.prac.innovation</groupId>
+    <artifactId>openurp-prac-innovation-web-parent</artifactId>
     <version>0.0.6-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>openurp-edu-innovation-webapp</artifactId>
+  <artifactId>openurp-prac-innovation-webapp</artifactId>
   <packaging>war</packaging>
-  <name>Openurp Edu Innovation Webapp</name>
+  <name>Openurp Prac Innovation Webapp</name>
 
   <dependencies>
     <dependency>
@@ -16,13 +16,13 @@
       <artifactId>beangle-ems-app_2.13</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu</groupId>
-      <artifactId>openurp-edu-boot</artifactId>
-      <version>${openurp.edu.web.version}</version>
+      <groupId>org.openurp.boot</groupId>
+      <artifactId>openurp-boot-web</artifactId>
+      <version>${openurp.boot.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openurp.edu.innovation</groupId>
-      <artifactId>openurp-edu-innovation-core</artifactId>
+      <groupId>org.openurp.prac.innovation</groupId>
+      <artifactId>openurp-prac-innovation-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
