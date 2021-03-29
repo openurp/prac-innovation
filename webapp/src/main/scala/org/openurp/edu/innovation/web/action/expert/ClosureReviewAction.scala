@@ -63,22 +63,28 @@ class ClosureReviewAction extends EntityAction[ClosureReviewDetail] with Servlet
     redirect("index", null)
   }
 
+
   def project(): View = {
     val expert2 = getExpert
     if (expert2.isEmpty) {
       redirect("index", null)
     } else {
       val expert = expert2.head
-      val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "review")
-      builder.where("review.expert = :expert", expert)
-      builder.orderBy("review.project.title")
-      val reviews = entityDao.search(builder)
-      var review = reviews.head
+
+      val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "detail")
+      builder.where("detail.expert = :expert", expert)
+      builder.orderBy("detail.review.project.title")
+      builder.where("not exists(from "+classOf[ClosureReviewDetail].getName
+        +" crd where crd.expert=detail.expert and crd.id <> detail.id and crd.review.project.batch.beginOn > detail.review.project.batch.beginOn)")
+
+      val details = entityDao.search(builder)
+      var detail = details.head
       getLong("review.id") foreach { id =>
-        reviews.find(_.id == id) foreach { r => review = r }
+        details.find(_.id == id) foreach { r => detail = r }
       }
-      put("review", review)
-      put("reviews", reviews)
+      put("review",detail.review)
+      put("reviewDetail", detail)
+      put("details", details)
       put("expert", expert)
       put("ClosureStageId", StageType.Closure)
       put("levels", entityDao.getAll(classOf[ProjectLevel]))
@@ -143,9 +149,9 @@ class ClosureReviewAction extends EntityAction[ClosureReviewDetail] with Servlet
   }
 
   private def getClosureReviewDetail(id: String, expert: Expert): ClosureReviewDetail = {
-    val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "review")
-    builder.where("review.expert=:expert", expert)
-    builder.where("review.id=:id", id.toLong)
+    val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "detail")
+    builder.where("detail.expert=:expert", expert)
+    builder.where("detail.id=:id", id.toLong)
     entityDao.search(builder).head
   }
 

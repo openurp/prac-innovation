@@ -35,7 +35,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">登录系统</p>
     [@b.messages flash="3"/]
-    <form action="${base}/expert/review/login" method="post">
+    <form action="${base}/expert/closure-review/login" method="post">
       <div class="form-group has-feedback">
         <input type="text" name="code" class="form-control" placeholder="用户名">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
