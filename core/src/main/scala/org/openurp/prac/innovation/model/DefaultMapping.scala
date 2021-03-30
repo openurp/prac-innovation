@@ -55,16 +55,6 @@ class DefaultMapping extends MappingModule {
       e.children is depends("parent")
     }.cacheable()
 
-    bind[Section].declare { e =>
-      e.children is depends("parent")
-      e.name is length(100)
-      e.remark is length(100)
-    }
-
-    bind[Template].declare { e =>
-      e.sections is depends("template")
-    }
-
     bind[Material].declare { e =>
       e.fileName is length(200)
     }
