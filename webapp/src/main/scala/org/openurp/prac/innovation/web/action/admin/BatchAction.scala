@@ -22,7 +22,7 @@ import java.time.{Instant, LocalDateTime, ZoneId}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.boot.edu.helper.ProjectSupport
+import org.openurp.starter.edu.helper.ProjectSupport
 import org.openurp.prac.innovation.model.{Batch, Stage, StageType}
 
 class BatchAction extends RestfulAction[Batch] with ProjectSupport {

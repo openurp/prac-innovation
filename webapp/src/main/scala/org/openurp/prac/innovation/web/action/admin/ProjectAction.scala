@@ -30,9 +30,9 @@ import org.beangle.webmvc.entity.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
 import org.openurp.base.edu.model.{Student, Teacher}
-import org.openurp.boot.edu.helper.ProjectSupport
 import org.openurp.prac.innovation.model._
 import org.openurp.prac.innovation.web.action.helper.ExportProject
+import org.openurp.starter.edu.helper.ProjectSupport
 
 class ProjectAction extends RestfulAction[Project] with ProjectSupport {
 

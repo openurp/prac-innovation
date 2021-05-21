@@ -6,6 +6,6 @@
     <module class="org.openurp.prac.innovation.web.action.admin.close.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.expert.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.student.DefaultModule"/>
-    <module class="org.openurp.edu.boot.web.ProjectModule" />
+    <module class="org.openurp.starter.edu.action.ProjectModule" />
   </container>
 </cdi>

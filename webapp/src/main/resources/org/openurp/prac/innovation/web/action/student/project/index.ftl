@@ -20,7 +20,9 @@
   [@b.a class="btn btn-primary btn-lg" href="!edit?project.id="+project.id role="button" title=project.title?html]进入我的项目[/@]
   [/#list]
   [#else]
-  [@b.a class="btn btn-primary btn-lg" href="!edit?project.batch.id="+batch.id role="button"]我要立项[/@]
+     [#list projectCategories as category]
+       [@b.a class="btn btn-primary btn-lg" href="!edit?project.batch.id="+batch.id+"&project.category.id" + category.id role="button"]${category.name} 立项[/@]
+     [/#]
   [/#if]
   </p>
 </div>

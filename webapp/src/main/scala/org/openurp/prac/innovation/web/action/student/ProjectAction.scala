@@ -18,19 +18,20 @@
  */
 package org.openurp.prac.innovation.web.action.student
 
-import java.time.{Instant, LocalDate}
 import jakarta.servlet.http.Part
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
+import org.beangle.webmvc.api.action.ActionSupport
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
-import org.openurp.code.edu.model.Discipline
 import org.openurp.base.edu.model.{Student, Teacher}
-import org.openurp.boot.edu.helper.ProjectSupport
+import org.openurp.code.edu.model.Discipline
 import org.openurp.prac.innovation.model._
+import org.openurp.starter.edu.helper.ProjectSupport
+
+import java.time.{Instant, LocalDate}
 
 class ProjectAction extends ActionSupport with EntityAction[Project] with ProjectSupport with MyProject {
 
@@ -49,6 +50,7 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     } else {
       put("projects", List.empty[Project])
     }
+    put("projectCategories", getCodes(classOf[ProjectCategory]))
     put("batches", batches)
     forward()
   }
@@ -56,9 +58,10 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
   def edit(): View = {
     val project = getEntity(classOf[Project], "project")
     if (!project.persisted) {
-      project.batch = entityDao.get(classOf[Batch], getInt("project.batch.id").get)
+      project.batch = entityDao.get(classOf[Batch], intId("project.batch"))
+      project.category = entityDao.get(classOf[ProjectCategory], intId("project.category"))
     }
-    put("projectCategories", entityDao.getAll(classOf[ProjectCategory]))
+
     put("projectStates", entityDao.getAll(classOf[ProjectState]))
     put("disciplines", entityDao.search(OqlBuilder.from(classOf[Discipline], "d").where("length(d.code)=3").orderBy("d.code")))
 
