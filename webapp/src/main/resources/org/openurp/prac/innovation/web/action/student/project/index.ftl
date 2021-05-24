@@ -12,7 +12,7 @@
  根据学校大学生创新创业训练计划项目活动安排，现启动${batch.beginOn?string('YYYY')}年度校级大学生创新创业训练计划项目的立项申报工作 。
   </p>
   <p>
-  [#if initialStage.noticeHref??]
+  [#if initialStage.noticeHref?? && initialStage.noticeHref?length>0]
   <a href="${initialStage.noticeHref}" class="btn btn-primary btn-lg" target="_new">查看完整通知</a>
   [/#if]
   [#if projects?size>0]
@@ -20,9 +20,10 @@
   [@b.a class="btn btn-primary btn-lg" href="!edit?project.id="+project.id role="button" title=project.title?html]进入我的项目[/@]
   [/#list]
   [#else]
-     [#list projectCategories as category]
-       [@b.a class="btn btn-primary btn-lg" href="!edit?project.batch.id="+batch.id+"&project.category.id" + category.id role="button"]${category.name} 立项[/@]
-     [/#]
+     [#list projectCategories?sort_by("code") as category]
+       [@b.a class="btn btn-primary btn-lg" href="!edit?project.batch.id="+batch.id+"&project.category.id=" + category.id role="button"]${category_index+1} ${category.name} 立项[/@]
+       &nbsp;
+     [/#list]
   [/#if]
   </p>
 </div>

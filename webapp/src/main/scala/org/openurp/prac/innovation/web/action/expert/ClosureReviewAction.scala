@@ -63,7 +63,6 @@ class ClosureReviewAction extends EntityAction[ClosureReviewDetail] with Servlet
     redirect("index", null)
   }
 
-
   def project(): View = {
     val expert2 = getExpert
     if (expert2.isEmpty) {

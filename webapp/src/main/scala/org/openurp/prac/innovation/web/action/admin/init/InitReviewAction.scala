@@ -96,7 +96,6 @@ class InitReviewAction extends RestfulAction[InitReview] {
     builder
   }
 
-
   @mapping(value = "{id}")
   override def info(@param("id") id: String): View = {
     val project = entityDao.get(classOf[Project], longId("project"))

@@ -3,16 +3,16 @@
 [@b.toolbar title="新建/修改项目信息"]bar.addBack();[/@]
   <script type="text/javascript" crossorigin="anonymous" src="${base}/static/js/ajax-chosen.js"></script>
   [@b.form action="!save" theme="list"  enctype="multipart/form-data" onsubmit="checkProject"]
+    [@b.field label="项目类型"]
+        <input name="project.category.id" value="${(project.category.id)!}" type="hidden"/>
+        ${project.category.name}
+    [/@]
     [@b.textfield name="project.title" label="名称" value="${project.title!}" required="true" maxlength="100" style="width:400px"/]
-    [@b.textarea name="intro.summary" label="简介" value=(project.intro.summary)! required="true" rows="8" cols="100" maxlength="700" comment="200字以内"/]
+    [@b.textarea name="intro.summary" label="简介" value=(project.intro.summary)! required="true" rows="8" cols="100" maxlength="200" comment="200字以内"/]
     [@b.textfield label="项目负责人" name="managerCode" required="true" value=(managerCode)! readOnly="true"/]
     [@b.textfield label="负责人联系电话" name="manager.phone" required="true" value=(project.manager.phone)!/]
     [@b.textfield label="负责人联系邮箱" name="manager.email" required="true" value=(project.manager.email)! style="width:150px"/]
     [@b.textfield label="负责人项目分工" name="manager.duty" required="true" maxlength="100" value=(project.manager.duty)! style="width:400px"/]
-    [@b.field]
-        <input name="project.category.id" value="${(project.category.id)!}" type="hidden"/>
-        ${project.category.name}
-    [/@]
     [@b.startend label="开始和拟完成于"
       name="project.beginOn,project.endOn" required="true,true" start=(project.beginOn)! end=(project.endOn)! format="date"/]
 

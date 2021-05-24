@@ -43,7 +43,6 @@ class LevelAction extends RestfulAction[Project] {
     put("departments", entityDao.search(departQuery))
   }
 
-
   protected override def getQueryBuilder: OqlBuilder[Project] = {
     val builder = super.getQueryBuilder
     get("student") foreach { m =>
