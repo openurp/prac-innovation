@@ -13,7 +13,7 @@
   </p>
   <p>
   [#if initialStage.noticeHref?? && initialStage.noticeHref?length>0]
-  <a href="${initialStage.noticeHref}" class="btn btn-primary btn-lg" target="_new">查看完整通知</a>
+  <a href="${initialStage.noticeHref}" class="btn btn-info btn-lg" target="_new">查看完整通知</a>
   [/#if]
   [#if projects?size>0]
   [#list projects as project]

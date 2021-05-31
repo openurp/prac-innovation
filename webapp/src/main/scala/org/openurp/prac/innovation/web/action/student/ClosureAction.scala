@@ -18,8 +18,6 @@
  */
 package org.openurp.prac.innovation.web.action.student
 
-import java.time.Instant
-
 import jakarta.servlet.http.Part
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.EmsApp
@@ -29,6 +27,8 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.EntityAction
 import org.beangle.webmvc.entity.helper.PopulateHelper
 import org.openurp.prac.innovation.model._
+
+import java.time.Instant
 
 class ClosureAction extends ActionSupport with EntityAction[Project] with ServletSupport with MyProject {
 
@@ -100,7 +100,8 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with Servle
           blob.remove(material.path)
         }
         val me = project.manager.get.std
-        val meta = blob.upload("/" + project.batch.beginOn.getYear.toString, part.getInputStream, part.getSubmittedFileName,
+        val meta = blob.upload("/" + project.batch.beginOn.getYear.toString,
+          part.getInputStream, project.id.toString + "_" + part.getSubmittedFileName,
           me.user.code + " " + me.user.name)
         material.size = meta.fileSize
         material.sha = meta.sha
