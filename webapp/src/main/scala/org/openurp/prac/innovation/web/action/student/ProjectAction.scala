@@ -142,9 +142,8 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       if (null != material.path) {
         blob.remove(material.path)
       }
-      val meta = blob.upload("/" + project.batch.beginOn.getYear.toString, part.getInputStream,
-        project.id.toString + "_" + part.getSubmittedFileName,
-        me.user.code + " " + me.user.name)
+      val meta = blob.upload("/" + project.batch.beginOn.getYear.toString + "/" + project.id.toString,
+        part.getInputStream, part.getSubmittedFileName, me.user.code + " " + me.user.name)
       material.size = meta.fileSize
       material.sha = meta.sha
       material.path = meta.filePath
