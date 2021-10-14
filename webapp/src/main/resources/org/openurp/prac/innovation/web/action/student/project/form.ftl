@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="新建/修改项目信息"]bar.addBack();[/@]
-  <script type="text/javascript" crossorigin="anonymous" src="${base}/static/js/ajax-chosen.js"></script>
   [@b.form action="!save" theme="list"  enctype="multipart/form-data" onsubmit="checkProject"]
     [@b.field label="项目类型"]
         <input name="project.category.id" value="${(project.category.id)!}" type="hidden"/>
@@ -56,33 +55,33 @@
 [/@]
 
 <script>
-  bg.load(["jquery-chosen"],function(){
-  jQuery("#instructorId").ajaxChosen(
-    {
-        method: 'GET',
-        url:  "${b.url('!teacher?pageNo=1&pageSize=10')}"
-    }
-    , function (data) {
-        var items = {};
-        var dataObj = eval("(" + data + ")");
-        jQuery.each(dataObj.teachers, function (i, teacher) {
-            items[teacher.id] = teacher.name + "(" + teacher.code + ")";
-        });
-        return items;
-    },
-    {width:"400px"}
-  );
+  beangle.load(["chosen","bui-ajaxchosen"],function(){
+    jQuery("#instructorId").ajaxchosen(
+      {
+          method: 'GET',
+          url:  "${b.url('!teacher')}?q={term}"
+      }
+      , function (data) {
+          var items = [];
+          var dataObj = eval("(" + data + ")");
+          jQuery.each(dataObj.teachers, function (i, teacher) {
+               items.push({"value":teacher.id,"text":teacher.name + "(" + teacher.code + ")"});
+          });
+          return items;
+      },
+      {width:"400px"}
+    );
 
-    jQuery("#studentId").ajaxChosen({ method: 'GET', url:  "${b.url('!student?pageNo=1&pageSize=10')}"}, function (data) {
-        var items = {};
-        var dataObj = eval("(" + data + ")");
-        jQuery.each(dataObj.students, function (i, student) {
-            items[student.id] = student.name + "(" + student.code + ")";
-        });
-        return items;
-    },
-    {width:"400px"}
-  );
+      jQuery("#studentId").ajaxchosen({ method: 'GET', url:  "${b.url('!student')}?q={term}"}, function (data) {
+          var items = [];
+          var dataObj = eval("(" + data + ")");
+          jQuery.each(dataObj.students, function (i, student) {
+              items.push({"value":student.id,"text":student.name + "(" + student.code + ")"});
+          });
+          return items;
+      },
+      {width:"400px"}
+    );
   });
 
    function checkProject(form){

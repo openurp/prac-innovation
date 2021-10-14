@@ -167,7 +167,7 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
   override def configExport(setting: ExportSetting): Unit = {
     val query = getQueryBuilder
     query.limit(null)
-    val closures = entityDao.search(query);
+    val closures = entityDao.search(query)
     val projects = closures.map(x => new ExportProject(x))
     setting.context.put("items", scala.collection.JavaConverters.asJavaCollection(projects))
   }

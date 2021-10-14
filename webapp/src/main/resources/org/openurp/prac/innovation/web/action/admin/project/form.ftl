@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="新建/修改项目信息"]bar.addBack();[/@]
-  <script type="text/javascript" crossorigin="anonymous" src="${base}/static/js/ajax-chosen.js"></script>
   [@b.form action=b.rest.save(project) theme="list"]
     [@b.textfield name="project.code" label="编号" value="${project.code!}" required="false" maxlength="20"/]
     [@b.textfield name="project.title" label="名称" value="${project.title!}" required="true" maxlength="100" style="width:400px"/]
@@ -53,7 +52,8 @@
 [/@]
 
 <script>
-  jQuery("#instructorId").ajaxChosen(
+  beangle.load(["chosen","bui-ajaxchosen"],function(){
+  jQuery("#instructorId").ajaxchosen(
     {
         method: 'GET',
         url:  "${b.url('!teacher?pageNo=1&pageSize=10')}"
@@ -69,7 +69,7 @@
     {width:"400px"}
   );
 
-    jQuery("#studentId").ajaxChosen(
+    jQuery("#studentId").ajaxchosen(
     {
         method: 'GET',
         url:  "${b.url('!student?pageNo=1&pageSize=10')}"
@@ -84,5 +84,6 @@
     },
     {width:"400px"}
   );
+  });
 </script>
 [@b.foot/]
