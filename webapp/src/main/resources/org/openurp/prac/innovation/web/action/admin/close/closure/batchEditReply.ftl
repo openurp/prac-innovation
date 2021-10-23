@@ -7,7 +7,7 @@
   }
 [/@]
 [@b.form action="!saveBatchEditReply"  name="closureListForm"]
-    [@b.grid items=closures?sort_by(["project","code"]) var="closure"]
+    [@b.grid items=closures?sort_by(["project","id"]) var="closure"]
       [@b.row]
         [@b.col width="11%" property="project.code" title="编号"/]
         [@b.col width="40%" property="project.title" title="名称"][@b.a href="!attachment?project.id=${closure.project.id}" target="_blank" title="下载结项材料"]${closure.project.title}[/@][/@]

@@ -56,13 +56,13 @@
   jQuery("#instructorId").ajaxchosen(
     {
         method: 'GET',
-        url:  "${b.url('!teacher?pageNo=1&pageSize=10')}"
+        url:  "${b.url('!teacher')}?q={term}"
     }
     , function (data) {
-        var items = {};
+        var items = [];
         var dataObj = eval("(" + data + ")");
         jQuery.each(dataObj.teachers, function (i, teacher) {
-            items[teacher.id] = teacher.name + "(" + teacher.code + ")";
+            items.push({"value":teacher.id,"text":teacher.name + "(" + teacher.code + ")"});
         });
         return items;
     },
@@ -72,14 +72,14 @@
     jQuery("#studentId").ajaxchosen(
     {
         method: 'GET',
-        url:  "${b.url('!student?pageNo=1&pageSize=10')}"
+        url:  "${b.url('!student')}?q={term}"
     }
     , function (data) {
-        var items = {};
-        var dataObj = eval("(" + data + ")");
-        jQuery.each(dataObj.students, function (i, student) {
-            items[student.id] = student.name + "(" + student.code + ")";
-        });
+          var items = [];
+          var dataObj = eval("(" + data + ")");
+          jQuery.each(dataObj.students, function (i, student) {
+              items.push({"value":student.id,"text":student.name + "(" + student.code + ")"});
+          });
         return items;
     },
     {width:"400px"}

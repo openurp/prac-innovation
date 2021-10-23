@@ -19,7 +19,7 @@
 package org.openurp.prac.innovation.web.action.student
 
 import jakarta.servlet.http.Part
-import org.beangle.data.dao.OqlBuilder
+import org.beangle.data.dao.{Operation, OqlBuilder}
 import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
 import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
@@ -51,6 +51,30 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with Servle
     put("closureStage", new StageType(StageType.Closure))
     put("applyExemptionReplyStage", new StageType(StageType.ApplyExemptionReply))
     forward()
+  }
+
+  def removeClosure(): View = {
+    val projectId = longId("project")
+    val project = entityDao.get(classOf[Project], projectId)
+    if (isIntime(project, StageType.Closure)) {
+      val me = project.manager.get.std.user.code
+      if (Securities.user == me) {
+        val closureQuery = OqlBuilder.from(classOf[Closure], "c").where("c.project=:project", project)
+        val closures = entityDao.search(closureQuery)
+        if (closures.size == 1) {
+          val closure = closures.head
+          project.closureMaterial foreach { m =>
+            val blob = EmsApp.getBlobRepository(true)
+            blob.remove(m.path)
+          }
+          project.materials --= project.closureMaterial
+          entityDao.execute(Operation.saveOrUpdate(project).remove(closure))
+        }
+      }
+      redirect("index", "取消结项成功")
+    } else {
+      redirect("index", "不在时间范围内")
+    }
   }
 
   def saveClosure(): View = {

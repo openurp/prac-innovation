@@ -16,6 +16,10 @@
   <p>根据大学生创新创业训练计划的要求，现组织开展我校${batch.beginOn?string('YYYY')}年度大学生创新训练类项目的结项工作（创业类项目结项由学生处另行通知）。为保证结项工作的顺利进行，请各项目负责人按照要求，认真做好结项工作。</p>
   <p>
   [@b.a class="btn btn-primary btn-lg" href="!closureForm?project.id="+currentProject.id role="button" title=currentProject.title?html]进入我的项目[/@]
+  [#if currentProject.closureMaterial??]
+    [@b.a class="btn btn-danger btn-lg" href="!removeClosure?project.id=" + currentProject.id ]取消结项[/@]
+    <span>已上传结项材料:${currentProject.closureMaterial.fileName}</span>
+  [/#if]
   </p>
 </div>
 </div>

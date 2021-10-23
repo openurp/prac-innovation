@@ -6,7 +6,7 @@
 
 [@b.toolbar title="项目结项信息"]bar.addBack();[/@]
   [@b.form action="!saveClosure" theme="list" name="closureForm" onsubmit="checkClosure"  enctype="multipart/form-data"]
-    [@b.field  label="编号" value="" ]${project.code!}[/@]
+    [@b.field  label="编号" value="" ]${project.code!'--'}[/@]
     [@b.field  label="名称"]${project.title!}[/@]
     [@b.field  label="简介"] <div style="margin-left:100px">${project.intro.summary!}</div>[/@]
     [@b.field  label="项目负责人"]${(project.manager.std.user.code)} ${(project.manager.std.user.name)}[/@]
@@ -14,7 +14,7 @@
     [@b.field  label="项目类型"]${project.category.name!}[/@]
     [@b.field  label="项目级别"]${project.level.name!}[/@]
     [@b.field  label="一级学科"]${(project.discipline.name)}[/@]
-    [@b.field  label="指导老师"][#list (project.instructors)! as i]${i.user.name}(${i.user.code})[/#list][/@]
+    [@b.field  label="指导老师"][#list (project.instructors)! as i]${i.user.name}(${i.user.code})[/#list]&nbsp;[/@]
     [@b.field  label="其他成员"]
       [#if project.members?size>1]
         [#list (project.members)! as i][#if i.id != project.manager.id]${i.std.user.name}(${i.std.user.code})[/#if][#if i_has_next]&nbsp;[/#if][/#list]

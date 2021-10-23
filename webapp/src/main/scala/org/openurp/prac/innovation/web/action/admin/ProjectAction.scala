@@ -126,9 +126,9 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
   }
 
   def teacher(): View = {
-    val codeOrName = get("term").orNull
+    val codeOrName = get("q").orNull
     val query = OqlBuilder.from(classOf[Teacher], "teacher")
-    query.where("teacher.project=:project", getProject)
+    query.where(":project in elements(teacher.projects)", getProject)
     populateConditions(query);
 
     if (Strings.isNotEmpty(codeOrName)) {
@@ -146,7 +146,7 @@ class ProjectAction extends RestfulAction[Project] with ProjectSupport {
   }
 
   def student(): View = {
-    val codeOrName = get("term").orNull
+    val codeOrName = get("q").orNull
     val query = OqlBuilder.from(classOf[Student], "student")
     query.where("student.project=:project", getProject)
     populateConditions(query);
