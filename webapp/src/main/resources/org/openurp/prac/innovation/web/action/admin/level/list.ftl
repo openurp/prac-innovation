@@ -23,12 +23,14 @@
     [@b.col width="14%" title="获奖级别"]
     [#assign yearLevels={}/]
     [#list project.levels as l]
-        [#assign existed = (yearLevels[l.year?string])![] /]
+       [#assign existed = (yearLevels[l.year?string])![] /]
        [#assign yearLevels= yearLevels + {l.year?string:(existed+[l.level])}/]
     [/#list]
 
     [#list yearLevels?keys?sort as y ]
-      ${y} [#list yearLevels[y]?sort_by("id") as l]${l.name}[#if l_has_next],[/#if][/#list] [#if y_has_next]<br>[/#if]
+      ${y} [#list yearLevels[y]?sort_by("id") as l]
+      [#if project.levelMaterial(l)??][@b.a href="project!attachment?material.id="+project.levelMaterial(l).id class="mailbox-attachment-name" target="_blank"]${l.name} <i class="fa fa-paperclip"></i>[/@][#else]${l.name} [/#if]
+       [#if l_has_next],[/#if][/#list] [#if y_has_next]<br>[/#if]
     [/#list]
 
     [/@]

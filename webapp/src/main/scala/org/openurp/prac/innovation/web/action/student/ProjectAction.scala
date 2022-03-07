@@ -47,7 +47,9 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       put("projects", entityDao.search(query))
       put("initialStage", batches.head.getStage(initialStage))
     } else {
-      put("projects", List.empty[Project])
+      val query = OqlBuilder.from(classOf[Project], "p")
+      query.where("p.manager.std.user.code=:code", user)
+      put("projects", entityDao.search(query))
     }
     put("projectCategories", getCodes(classOf[ProjectCategory]))
     put("batches", batches)
@@ -188,5 +190,39 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     put("students", entityDao.search(query));
     put("pageLimit", pageLimit);
     forward()
+  }
+
+  def savePromotion(): View = {
+    val projectId = longId("project")
+    val project = entityDao.get(classOf[Project], projectId)
+    val levelId  = getInt("promotion_level_id",0)
+    val stageTypeId = if(levelId== ProjectLevel.Nation) StageType.PromotionNation else StageType.PromotionState
+    val promotionStage = new StageType(stageTypeId)
+      val parts = getAll("promotion_report", classOf[Part])
+      if (parts.nonEmpty && parts.head.getSize > 0) {
+        val material =
+          project.materials.find(_.stageType == promotionStage) match {
+            case None => new Material(project, promotionStage)
+            case Some(m) => m
+          }
+        val part = getAll("promotion_report", classOf[Part]).head
+        val fileName = part.getSubmittedFileName
+        val now = Instant.now
+        material.fileName = fileName
+        material.updatedAt = now
+        val blob = EmsApp.getBlobRepository(true)
+        if (null != material.path) {
+          blob.remove(material.path)
+        }
+        val me = project.manager.get.std
+        val meta = blob.upload("/" + project.batch.beginOn.getYear.toString + "/" + project.id.toString,
+          part.getInputStream, part.getSubmittedFileName,
+          me.user.code + " " + me.user.name)
+        material.size = meta.fileSize
+        material.sha = meta.sha
+        material.path = meta.filePath
+        entityDao.saveOrUpdate(material)
+      }
+      redirect("index", "保存成功")
   }
 }

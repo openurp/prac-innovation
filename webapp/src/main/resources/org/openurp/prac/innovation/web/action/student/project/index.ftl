@@ -1,8 +1,10 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="项目立项"]bar.addBack();[/@]
+[@b.toolbar title="我的项目"]bar.addBack();[/@]
 [@b.messages/]
-
+<script>
+   beangle.load(["adminlte"],function(){});
+</script>
 [#if batches??&&batches?size==1]
 [#assign batch=batches?first]
 <div class="container">
@@ -28,7 +30,20 @@
   </p>
 </div>
 </div>
-[#else]
-   不在立项时间。
 [/#if]
+
+[@b.form name="projectForm" action="!savePromotion"  enctype="multipart/form-data"]
+[#list projects as project]
+[@b.card class="card-info card-outline"]
+  [@b.card_header]
+    ${project.title}
+    [@b.card_tools]
+      <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Previous"><i class="fa fa-chevron-left"></i></a>
+      <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Next"><i class="fa fa-chevron-right"></i></a>
+    [/@]
+  [/@]
+  [#include "info.ftl"/]
+[/@]
+[/#list]
+[/@]
 [@b.foot/]

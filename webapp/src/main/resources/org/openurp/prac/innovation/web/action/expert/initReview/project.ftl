@@ -81,7 +81,7 @@
                 <p>
                 [#list project.materials as m]
                    [#if m.stageType.id ==InitStageId]
-                    [@b.a href="!attachment?id="+detail.id class="mailbox-attachment-name"]<i class="fa fa-paperclip"></i>${m.fileName} <i class="fa fa-cloud-download"></i>[/@]
+                    [@b.a href="!attachment?id="+detail.id class="mailbox-attachment-name" target="_blank"]<i class="fa fa-paperclip"></i>${m.fileName} <i class="fa fa-cloud-download"></i>[/@]
                    [/#if]
                 [/#list]
                 </p>

@@ -20,9 +20,9 @@ package org.openurp.prac.innovation.model
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Remark, TemporalOn}
+import org.openurp.base.edu.model.Teacher
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
-import org.openurp.base.edu.model.Teacher
 
 import scala.collection.mutable
 
@@ -78,6 +78,15 @@ class Project extends LongId with TemporalOn with Remark {
 
   def closureMaterial: Option[Material] = {
     materials.find(_.stageType.id == StageType.Closure)
+  }
+
+  def levelMaterial(level: ProjectLevel): Option[Material] = {
+    val stageTypeId = level.id match {
+      case ProjectLevel.Nation => StageType.PromotionNation
+      case ProjectLevel.State => StageType.PromotionState
+      case ProjectLevel.School => 0
+    }
+    materials.find(_.stageType.id == stageTypeId)
   }
 
 }

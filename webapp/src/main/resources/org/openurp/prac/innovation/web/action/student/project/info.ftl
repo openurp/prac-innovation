@@ -1,11 +1,6 @@
-[#ftl]
-[@b.head/]
-[@b.toolbar title="项目信息"]
-  bar.addBack("${b.text("action.back")}");
-[/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">代码</td>
+    <td class="title" width="10%">代码</td>
     <td class="content">${project.code!}</td>
   </tr>
   <tr>
@@ -42,7 +37,20 @@
   </tr>
   <tr>
     <td class="title">项目级别</td>
-    <td class="content">${(project.level.name)!}</td>
+    <td class="content">
+      [#assign levels=project.levels?sort_by("year")/]
+      [#if levels?size > 0]
+        [#list levels as lj]
+          ${lj.year} ${lj.level.name} <br>
+        [/#list]
+        [#assign lastLevel=levels?last.level/]
+        <input type="hidden" name="project.id" value="${project.id}"/>
+        <input type="hidden" name="promotion_level_id" value="${lastLevel.id}"/>
+        推荐${lastLevel.name},上传研究报告:&nbsp;<input type="file" name="promotion_report"/> [@b.submit value="提交研究报告"/]
+      [#else]
+        ${(project.level.name)!}
+      [/#if]
+    </td>
   </tr>
   <tr>
     <td class="title">项目状态</td>
@@ -92,10 +100,8 @@
    <td class="title">项目材料</td>
    <td class="content">
    [#list project.materials as m]
-     ${m.stageType.name}：[@b.a href="project!attachment?material.id="+m.id target="_blank"]${m.fileName}[/@]<br>
+     ${m.stageType.name}：[@b.a href="!attachment?material.id="+m.id target="_blank"]${m.fileName}[/@]<br>
    [/#list]
    </td>
   </tr>
 </table>
-
-[@b.foot/]
