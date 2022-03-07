@@ -1,21 +1,20 @@
 /*
- * OpenURP, Agile University Resource Planning Solution.
- *
- * Copyright © 2014, The OpenURP Software.
+ * Copyright (C) 2005, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful.
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.openurp.prac.innovation.web.action.expert
 
 import java.time.{Instant, LocalDate}
@@ -23,13 +22,13 @@ import java.time.{Instant, LocalDate}
 import org.beangle.commons.activation.MediaTypes
 import org.beangle.commons.codec.digest.Digests
 import org.beangle.commons.lang.Strings
-import org.beangle.commons.web.util.{CookieUtils, RequestUtils}
+import org.beangle.web.servlet.util.{CookieUtils, RequestUtils}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.EmsApp
-import org.beangle.webmvc.api.action.ServletSupport
-import org.beangle.webmvc.api.annotation.param
-import org.beangle.webmvc.api.view.View
-import org.beangle.webmvc.entity.action.EntityAction
+import org.beangle.web.action.support.ServletSupport
+import org.beangle.web.action.annotation.param
+import org.beangle.web.action.view.View
+import org.beangle.webmvc.support.action.EntityAction
 import org.openurp.prac.innovation.model._
 
 class ClosureReviewAction extends EntityAction[ClosureReviewDetail] with ServletSupport {
