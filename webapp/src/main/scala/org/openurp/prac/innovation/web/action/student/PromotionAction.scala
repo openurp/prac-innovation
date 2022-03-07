@@ -1,58 +1,58 @@
 /*
- * Copyright (C) 2005, The OpenURP Software.
+ * OpenURP, Agile University Resource Planning Solution.
+ *
+ * Copyright © 2014, The OpenURP Software.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful.
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
- * GNU Lesser General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.openurp.prac.innovation.web.action.student
 
 import jakarta.servlet.http.Part
 import org.beangle.data.dao.{Operation, OqlBuilder}
 import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
-import org.beangle.web.action.support.{ActionSupport, ServletSupport}
-import org.beangle.web.action.view.View
-import org.beangle.webmvc.support.action.EntityAction
-import org.beangle.webmvc.support.helper.PopulateHelper
-import org.openurp.prac.innovation.model.*
+import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
+import org.beangle.webmvc.api.view.View
+import org.beangle.webmvc.entity.action.EntityAction
+import org.beangle.webmvc.entity.helper.PopulateHelper
+import org.openurp.prac.innovation.model._
 
 import java.time.Instant
 
-class ClosureAction extends ActionSupport with EntityAction[Project] with ServletSupport with MyProject {
+class PromotionAction extends ActionSupport with EntityAction[Project] with ServletSupport with MyProject {
 
   def index(): View = {
     val user = Securities.user;
     val query = OqlBuilder.from(classOf[Project], "p")
     query.where("p.manager.std.user.code=:code", user)
-    val projects = entityDao.search(query);
+    val projects = entityDao.search(query)
     put("projects", projects)
-    put("closureStage", new StageType(StageType.Closure))
+    put("closureStage", new StageType(StageType.Promotion))
     forward()
   }
 
-  def closureForm(): View = {
+  def promoteForm(): View = {
     val projectId = longId("project")
     val project = entityDao.get(classOf[Project], projectId)
     put("project", project)
     val closureQuery = OqlBuilder.from(classOf[Closure], "closure").where("closure.project=:project", project)
     put("closures", entityDao.search(closureQuery))
-    put("closureStage", new StageType(StageType.Closure))
-    put("applyExemptionReplyStage", new StageType(StageType.ApplyExemptionReply))
+    put("promoteStage", new StageType(StageType.Promotion))
     forward()
   }
 
-  def removeClosure(): View = {
+  def removePromotion(): View = {
     val projectId = longId("project")
     val project = entityDao.get(classOf[Project], projectId)
     if (isIntime(project, StageType.Closure)) {
@@ -70,13 +70,13 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with Servle
           entityDao.execute(Operation.saveOrUpdate(project).remove(closure))
         }
       }
-      redirect("index", "取消结项成功")
+      redirect("index", "取消成功")
     } else {
       redirect("index", "不在时间范围内")
     }
   }
 
-  def saveClosure(): View = {
+  def savePromotion(): View = {
     val projectId = longId("project")
     val project = entityDao.get(classOf[Project], projectId)
     if (isIntime(project, StageType.Closure)) {

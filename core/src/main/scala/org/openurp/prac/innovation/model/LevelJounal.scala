@@ -33,6 +33,9 @@ class LevelJounal extends LongId with Updated {
 
   var level: ProjectLevel = _
 
+  /**研究报告*/
+  var material:Option[Material]=None
+
   def this(year: Int, project: Project, level: ProjectLevel) = {
     this()
     this.year = year
