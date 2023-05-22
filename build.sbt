@@ -26,8 +26,10 @@ ThisBuild / homepage := Some(url("http://openurp.github.io/prac-innovation/index
 
 val apiVer = "0.32.1"
 val starterVer = "0.2.16"
+val baseVer = "0.3.9"
 val openurp_prac_api = "org.openurp.prac" % "openurp-prac-api" % apiVer
 val openurp_stater_web = "org.openurp.starter" % "openurp-starter-web" % starterVer
+val openurp_base_tag = "org.openurp.base" % "openurp-base-tag" % baseVer
 
 lazy val root = (project in file("."))
   .enablePlugins(WarPlugin,TomcatPlugin)
@@ -35,5 +37,5 @@ lazy val root = (project in file("."))
     name := "openurp-prac-innovation-webapp",
     common,
     libraryDependencies ++= Seq(beangle_commons_file,openurp_stater_web),
-    libraryDependencies ++= Seq(openurp_prac_api,beangle_ems_app,beangle_commons_file)
+    libraryDependencies ++= Seq(openurp_prac_api,beangle_ems_app,beangle_commons_file,openurp_base_tag)
   )

@@ -71,6 +71,8 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
 
     put("initialStage", project.batch.getStage(new StageType(StageType.Initial)))
     put("managerCode", Securities.user)
+    val student = entityDao.findBy(classOf[Student], "code", Securities.user).headOption
+    put("student", student)
     put("project", project)
     forward()
   }

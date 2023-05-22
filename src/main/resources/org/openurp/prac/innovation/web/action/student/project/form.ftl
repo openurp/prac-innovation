@@ -22,13 +22,8 @@
 
     [@b.select name="project.discipline.id" label="一级学科" value="${(project.discipline.id)!}" option=r"${item.code} ${item.name}"
                style="width:200px;" items=disciplines empty="..." required="true"/]
-    [@b.field label="指导老师"]
-      <select id="instructorId" multiple="true" name="instructorId" style="width:400px;">
-        [#list (project.instructors)! as i]
-        <option value='${i.id}' selected>${i.name}(${i.code})</option>
-        [/#list]
-      </select>
-    [/@]
+    [@base.teacher label="指导老师" multiple="true" name="instructorId" style="width:400px;" required="true" values=project.instructors! project = student.project/]
+
     [@b.field label="其他成员"]
       <select id="studentId" multiple="true" name="studentId" style="width:400px;">
         [#list (project.members)! as m]
