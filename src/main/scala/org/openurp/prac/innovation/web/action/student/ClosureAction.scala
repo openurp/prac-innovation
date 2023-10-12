@@ -125,6 +125,7 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with Servle
           blob.remove(material.filePath)
         }
         val me = project.manager.get.std
+        logger.info("starting upload file to remote repository...")
         val meta = blob.upload("/innovation/" + project.batch.beginOn.getYear.toString + "/" + project.id.toString,
           part.getInputStream, part.getSubmittedFileName,
           me.code + " " + me.name)

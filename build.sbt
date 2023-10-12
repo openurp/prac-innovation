@@ -1,6 +1,5 @@
-import org.openurp.parent.Settings._
-import org.openurp.parent.Dependencies._
-import org.beangle.tools.sbt.Sas
+import org.openurp.parent.Dependencies.*
+import org.openurp.parent.Settings.*
 
 ThisBuild / organization := "org.openurp.prac.innovation"
 ThisBuild / version := "0.0.8-SNAPSHOT"
@@ -24,9 +23,9 @@ ThisBuild / developers := List(
 ThisBuild / description := "OpenURP Prac Innovation"
 ThisBuild / homepage := Some(url("http://openurp.github.io/prac-innovation/index.html"))
 
-val apiVer = "0.32.1"
-val starterVer = "0.2.16"
-val baseVer = "0.3.9"
+val apiVer = "0.34.3-SNAPSHOT"
+val starterVer = "0.3.9-SNAPSHOT"
+val baseVer = "0.4.7-SNAPSHOT"
 val openurp_prac_api = "org.openurp.prac" % "openurp-prac-api" % apiVer
 val openurp_stater_web = "org.openurp.starter" % "openurp-starter-web" % starterVer
 val openurp_base_tag = "org.openurp.base" % "openurp-base-tag" % baseVer
