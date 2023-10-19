@@ -23,9 +23,9 @@ ThisBuild / developers := List(
 ThisBuild / description := "OpenURP Prac Innovation"
 ThisBuild / homepage := Some(url("http://openurp.github.io/prac-innovation/index.html"))
 
-val apiVer = "0.34.3-SNAPSHOT"
-val starterVer = "0.3.9-SNAPSHOT"
-val baseVer = "0.4.7-SNAPSHOT"
+val apiVer = "0.34.3"
+val starterVer = "0.3.10"
+val baseVer = "0.4.8"
 val openurp_prac_api = "org.openurp.prac" % "openurp-prac-api" % apiVer
 val openurp_stater_web = "org.openurp.starter" % "openurp-starter-web" % starterVer
 val openurp_base_tag = "org.openurp.base" % "openurp-base-tag" % baseVer

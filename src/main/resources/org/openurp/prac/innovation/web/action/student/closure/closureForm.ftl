@@ -44,7 +44,7 @@
          [#else]不申请[/#if]
        [/@]
       [/#if]
-      [@b.field  label="结项材料"]<input type="file" name="attachment"/>
+      [@b.field  label="结项材料"]<input type="file" name="attachment"/> 最大不得超过200M
         [#list project.materials as m][#if m.stageType==closureStage][@b.a target="_blank" href="!attachment?material.id="+m.id]${m.fileName}[/@][/#if][/#list]
       [/@]
     [/#if]
