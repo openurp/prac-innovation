@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.openurp.prac.innovation.web.action.student
+package org.openurp.prac.innovation.web.action.admin.promotion
 
 import org.beangle.cdi.bind.BindModule
 
 class DefaultModule extends BindModule {
 
   protected override def binding(): Unit = {
-    bind(classOf[ProjectAction], classOf[ClosureAction])
-    bind(classOf[PromotionAction])
+    bind(classOf[GroupAction])
+    bind(classOf[MemberAction])
   }
 }

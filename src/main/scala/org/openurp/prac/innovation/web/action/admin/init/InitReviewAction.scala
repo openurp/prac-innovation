@@ -17,15 +17,15 @@
 
 package org.openurp.prac.innovation.web.action.admin.init
 
-import java.time.Instant
-
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.web.action.annotation.{ignore, mapping, param}
 import org.beangle.web.action.view.View
 import org.beangle.webmvc.support.action.RestfulAction
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline
-import org.openurp.prac.innovation.model.{InitReviewGroup, _}
+import org.openurp.prac.innovation.model.*
+
+import java.time.Instant
 
 class InitReviewAction extends RestfulAction[InitReview] {
 
@@ -63,7 +63,7 @@ class InitReviewAction extends RestfulAction[InitReview] {
     put("reviews", entityDao.search(getQueryBuilder))
     put("groups", entityDao.getAll(classOf[InitReviewGroup]))
     val stat = OqlBuilder.from[Array[_]](classOf[InitReview].getName, "ir")
-    stat.where("ir.project.batch.id=:batchId", getIntIds("review.project.batch"))
+    stat.where("ir.project.batch.id=:batchId", getIntIds("review.project.batch").head)
     stat.where("ir.group is not null")
     stat.select("ir.group.id,count(*)")
     stat.groupBy("ir.group.id")

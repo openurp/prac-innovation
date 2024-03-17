@@ -15,14 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.openurp.prac.innovation.web.action.student
+package org.openurp.prac.innovation.web.action.admin.promotion
 
-import org.beangle.cdi.bind.BindModule
+import org.beangle.webmvc.support.action.RestfulAction
+import org.openurp.prac.innovation.model.{Batch, PromotionDefenseGroup}
 
-class DefaultModule extends BindModule {
+class GroupAction extends RestfulAction[PromotionDefenseGroup] {
 
-  protected override def binding(): Unit = {
-    bind(classOf[ProjectAction], classOf[ClosureAction])
-    bind(classOf[PromotionAction])
+  protected override def indexSetting(): Unit = {
+    val batches = entityDao.getAll(classOf[Batch])
+    put("batches", batches.sortBy(_.name).reverse)
   }
 }

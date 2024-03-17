@@ -23,7 +23,7 @@ import org.beangle.webmvc.support.action.RestfulAction
 import org.openurp.code.edu.model.Discipline
 import org.openurp.prac.innovation.model._
 
-class ReviewGroupAction extends RestfulAction[ClosureReviewGroup] {
+class   ReviewGroupAction extends RestfulAction[ClosureReviewGroup] {
 
   override def simpleEntityName: String = {
     "reviewGroup"
@@ -45,7 +45,7 @@ class ReviewGroupAction extends RestfulAction[ClosureReviewGroup] {
   override def search(): View = {
     put("reviewGroups", entityDao.search(getQueryBuilder))
     val stat = OqlBuilder.from[Array[_]](classOf[ClosureReview].getName, "cr")
-    stat.where("cr.project.batch.id=:batchId", getIntIds("reviewGroup.batch"))
+    stat.where("cr.project.batch.id=:batchId", getIntIds("reviewGroup.batch").head)
     stat.where("cr.group is not null")
     stat.select("cr.group.id,count(*)")
     stat.groupBy("cr.group.id")

@@ -1,10 +1,8 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="我的项目"]bar.addBack();[/@]
+<div class="container-fluid">
 [@b.messages/]
-<script>
-   beangle.load(["adminlte"],function(){});
-</script>
 [#if batches??&&batches?size==1]
 [#assign batch=batches?first]
 <div class="container">
@@ -32,7 +30,6 @@
 </div>
 [/#if]
 
-[@b.form name="projectForm" action="!savePromotion"  enctype="multipart/form-data"]
 [#list projects as project]
 [@b.card class="card-info card-outline"]
   [@b.card_header]
@@ -45,5 +42,6 @@
   [#include "info.ftl"/]
 [/@]
 [/#list]
-[/@]
+
+</div>
 [@b.foot/]

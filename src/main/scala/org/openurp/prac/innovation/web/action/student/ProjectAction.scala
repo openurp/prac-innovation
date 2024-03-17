@@ -25,7 +25,7 @@ import org.beangle.security.Securities
 import org.beangle.web.action.support.ActionSupport
 import org.beangle.web.action.view.View
 import org.beangle.webmvc.support.action.EntityAction
-import org.openurp.base.edu.model.Teacher
+import org.openurp.base.hr.model.Teacher
 import org.openurp.base.std.model.Student
 import org.openurp.code.edu.model.Discipline
 import org.openurp.prac.innovation.model.*
@@ -201,8 +201,7 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     val projectId = getLongId("project")
     val project = entityDao.get(classOf[Project], projectId)
     val levelId = getInt("promotion_level_id", 0)
-    //FIXME ??
-    val stageTypeId = ProjectLevel.Nation //if (levelId == ProjectLevel.Nation) StageType.PromotionNation else StageType.PromotionState
+    val stageTypeId = if (levelId == ProjectLevel.Nation) StageType.PromotionNation else StageType.PromotionState
     val promotionStage = new StageType(stageTypeId)
     val parts = getAll("promotion_report", classOf[Part])
     if (parts.nonEmpty && parts.head.getSize > 0) {

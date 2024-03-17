@@ -17,7 +17,7 @@
     [/@]
     [@b.col width="8%" property="manager.std.name" title="负责人"]
       [#if project.members?size>1]
-      <span title="拟参加${project.members?size}人">${(project.manager.std.name)!}<sup>${project.members?size}</sup></span>
+      <span title="参加${project.members?size}人">${(project.manager.std.name)!}<sup>${project.members?size}</sup></span>
       [#else]
       ${(project.manager.std.name)!}
       [/#if]

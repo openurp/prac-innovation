@@ -24,7 +24,7 @@ import org.beangle.ems.app.EmsApp
 import org.beangle.web.action.annotation.ignore
 import org.beangle.web.action.view.View
 import org.beangle.webmvc.support.action.{ExportSupport, RestfulAction}
-import org.openurp.base.edu.model.Teacher
+import org.openurp.base.hr.model.Teacher
 import org.openurp.base.model.Department
 import org.openurp.base.std.model.Student
 import org.openurp.code.edu.model.Discipline

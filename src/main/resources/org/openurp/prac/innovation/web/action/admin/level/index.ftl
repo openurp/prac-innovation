@@ -12,7 +12,7 @@
       [@b.select style="width:100px" name="year" label="获奖年度" items=yearMap empty="..."/]
       [@b.textfields names="project.code;编号"/]
       [@b.textfields names="project.title;名称"/]
-      [@b.textfields names="student;学生"/]
+      [@b.textfield name="student" label="学生" maxlength="5000"/]
       [@b.textfields names="instructor;指导教师"/]
       [@b.select style="width:100px" name="project.category.id" label="项目类型" items=projectCategories empty="..." /]
       [@b.select style="width:100px" name="project.department.id" label="所属部门" items=departments empty="..." /]

@@ -38,15 +38,17 @@
   <tr>
     <td class="title">项目级别</td>
     <td class="content">
-      [#assign levels=project.levels?sort_by("year")/]
+      [#assign levels=project.levels?sort_by("awardYear")/]
       [#if levels?size > 0]
         [#list levels as lj]
           ${lj.awardYear} ${lj.level.name} <br>
         [/#list]
+        [@b.form name="projectForm"+project.id action="!savePromotion"  enctype="multipart/form-data"]
         [#assign lastLevel=levels?last.level/]
         <input type="hidden" name="project.id" value="${project.id}"/>
         <input type="hidden" name="promotion_level_id" value="${lastLevel.id}"/>
         推荐${lastLevel.name},上传研究报告:&nbsp;<input type="file" name="promotion_report"/> [@b.submit value="提交研究报告"/]
+        [/@]
       [#else]
         ${(project.level.name)!}
       [/#if]

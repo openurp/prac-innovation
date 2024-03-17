@@ -17,6 +17,7 @@
 
 package org.openurp.prac.innovation.web.action.admin
 
+import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.exporter.ExportContext
 import org.beangle.web.action.annotation.ignore
@@ -45,14 +46,17 @@ class LevelAction extends RestfulAction[Project], ExportSupport[Project] {
   protected override def getQueryBuilder: OqlBuilder[Project] = {
     val builder = super.getQueryBuilder
     get("student") foreach { m =>
-      if (!m.isEmpty) {
-        builder.where(
-          "exists(from project.members m where m.std.code like :stdCode or m.std.name like :stdName)",
-          "%" + m + "%", "%" + m + "%")
+      if (m.nonEmpty) {
+        val names = Strings.split(m)
+        if (names.length == 1) {
+          builder.where("exists(from project.members m where m.std.code like :names or m.std.name like :names)", "%" + m + "%")
+        } else {
+          builder.where("exists(from project.members m where m.std.code in(:names) or m.std.name in (:names))", names)
+        }
       }
     }
     get("instructor") foreach { m =>
-      if (!m.isEmpty) {
+      if (m.nonEmpty) {
         builder.where(
           "exists(from project.instructors i where i.staff.code like :teacherCode or i.name like :teacherName)",
           "%" + m + "%", "%" + m + "%")

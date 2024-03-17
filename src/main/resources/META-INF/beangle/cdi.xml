@@ -4,6 +4,7 @@
     <module class="org.openurp.prac.innovation.web.action.admin.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.admin.init.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.admin.close.DefaultModule"/>
+    <module class="org.openurp.prac.innovation.web.action.admin.promotion.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.expert.DefaultModule"/>
     <module class="org.openurp.prac.innovation.web.action.student.DefaultModule"/>
     <module class="org.openurp.starter.web.ProjectModule" />

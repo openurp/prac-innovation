@@ -45,7 +45,7 @@ class ReviewGroupAction extends RestfulAction[InitReviewGroup] {
   override def search(): View = {
     put("reviewGroups", entityDao.search(getQueryBuilder))
     val stat = OqlBuilder.from[Array[_]](classOf[InitReview].getName, "ir")
-    stat.where("ir.project.batch.id=:batchId", getIntIds("reviewGroup.batch"))
+    stat.where("ir.project.batch.id=:batchId", getIntIds("reviewGroup.batch").head)
     stat.where("ir.group is not null")
     stat.select("ir.group.id,count(*)")
     stat.groupBy("ir.group.id")
