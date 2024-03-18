@@ -47,7 +47,10 @@
         [#assign lastLevel=levels?last.level/]
         <input type="hidden" name="project.id" value="${project.id}"/>
         <input type="hidden" name="promotion_level_id" value="${lastLevel.id}"/>
-        推荐${lastLevel.name},上传研究报告:&nbsp;<input type="file" name="promotion_report"/> [@b.submit value="提交研究报告"/]
+
+        推荐${lastLevel.name}
+        [@b.file name="promotion_report" label="研究报告" maxSize="200M"/]
+        [@b.submit value="提交研究报告"/]
         [/@]
       [#else]
         ${(project.level.name)!}
