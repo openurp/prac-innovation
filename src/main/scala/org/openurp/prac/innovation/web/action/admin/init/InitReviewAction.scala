@@ -45,7 +45,7 @@ class InitReviewAction extends RestfulAction[InitReview] {
   }
 
   def generate(): View = {
-    val batchId = getIntIds("review.project.batch")
+    val batchId = getIntIds("review.project.batch").head
     val query = OqlBuilder.from(classOf[Project], "p")
     query.where("not exists(from " + classOf[InitReview].getName + " ir where ir.project=p)")
     query.where("p.batch.id=:batchId", batchId)

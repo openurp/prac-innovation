@@ -19,7 +19,7 @@ package org.openurp.prac.innovation.web.action.admin
 
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.data.transfer.exporter.ExportContext
+import org.beangle.doc.transfer.exporter.ExportContext
 import org.beangle.ems.app.EmsApp
 import org.beangle.web.action.annotation.ignore
 import org.beangle.web.action.view.View

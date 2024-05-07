@@ -23,9 +23,9 @@ ThisBuild / developers := List(
 ThisBuild / description := "OpenURP Prac Innovation"
 ThisBuild / homepage := Some(url("http://openurp.github.io/prac-innovation/index.html"))
 
-val apiVer = "0.37.3-SNAPSHOT"
-val starterVer = "0.3.24"
-val baseVer = "0.4.20"
+val apiVer = "0.38.2"
+val starterVer = "0.3.31"
+val baseVer = "0.4.23"
 val openurp_prac_api = "org.openurp.prac" % "openurp-prac-api" % apiVer
 val openurp_stater_web = "org.openurp.starter" % "openurp-starter-web" % starterVer
 val openurp_base_tag = "org.openurp.base" % "openurp-base-tag" % baseVer
@@ -35,6 +35,6 @@ lazy val root = (project in file("."))
   .settings(
     name := "openurp-prac-innovation-webapp",
     common,
-    libraryDependencies ++= Seq(beangle_commons_file,openurp_stater_web),
-    libraryDependencies ++= Seq(openurp_prac_api,beangle_ems_app,beangle_commons_file,openurp_base_tag)
+    libraryDependencies ++= Seq(openurp_stater_web),
+    libraryDependencies ++= Seq(openurp_prac_api,beangle_ems_app,openurp_base_tag)
   )

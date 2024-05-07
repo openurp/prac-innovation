@@ -89,10 +89,6 @@
       alert("请上传立项材料");
       return false;
     }
-    if(!$("#instructorId").val()){
-       alert("请选择指导老师");
-       return false;
-    }
     return true;
   }
 </script>

@@ -61,7 +61,7 @@ class ClosureReviewAction extends RestfulAction[ClosureReview], ExportSupport[Cl
 
   override def search(): View = {
     put("reviews", entityDao.search(getQueryBuilder))
-    val batchId = getIntIds("review.project.batch")
+    val batchId = getIntIds("review.project.batch").head
     put("groups", entityDao.search(OqlBuilder.from(classOf[ClosureReviewGroup], "crg").where("crg.batch.id=:batchId", batchId)))
     val stat = OqlBuilder.from[Array[_]](classOf[ClosureReview].getName, "cr")
     stat.where("cr.project.batch.id=:batchId", batchId)
