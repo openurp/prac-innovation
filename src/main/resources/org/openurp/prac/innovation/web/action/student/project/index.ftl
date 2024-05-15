@@ -35,8 +35,8 @@
   [@b.card_header]
     ${project.title}
     [@b.card_tools]
-      <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Previous"><i class="fa fa-chevron-left"></i></a>
-      <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Next"><i class="fa fa-chevron-right"></i></a>
+      <a href="#" class="btn btn-tool" data-toggle="tooltip" title="" data-original-title="Previous"><i class="fa fa-chevron-left"></i></a>
+      <a href="#" class="btn btn-tool" data-toggle="tooltip" title="" data-original-title="Next"><i class="fa fa-chevron-right"></i></a>
     [/@]
   [/@]
   [#include "info.ftl"/]

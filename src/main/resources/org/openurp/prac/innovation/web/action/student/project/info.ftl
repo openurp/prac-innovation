@@ -1,6 +1,6 @@
 <table class="infoTable">
   <tr>
-    <td class="title" width="10%">代码</td>
+    <td class="title" width="10%">项目编号</td>
     <td class="content">${project.code!}</td>
   </tr>
   <tr>
@@ -109,4 +109,14 @@
    [/#list]
    </td>
   </tr>
+  [#if initReviewDetails.get(project)??]
+  [#list initReviewDetails.get(project) as detail]
+  <tr>
+   <td class="title">立项评审</td>
+   <td class="content">
+     ${detail.comments!}
+   </td>
+  </tr>
+  [/#list]
+  [/#if]
 </table>

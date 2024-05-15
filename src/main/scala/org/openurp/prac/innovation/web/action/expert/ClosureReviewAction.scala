@@ -70,25 +70,35 @@ class ClosureReviewAction extends ActionSupport, EntityAction[ClosureReviewDetai
       redirect("index", null)
     } else {
       val expert = expert2.head
-
-      val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "detail")
-      builder.where("detail.expert = :expert", expert)
-      builder.orderBy("detail.review.project.title")
-      builder.where("not exists(from " + classOf[ClosureReviewDetail].getName
-        + " crd where crd.expert=detail.expert and crd.id <> detail.id and crd.review.project.batch.beginOn > detail.review.project.batch.beginOn)")
-
-      val details = entityDao.search(builder)
-      var detail = details.head
-      getLong("review.id") foreach { id =>
-        details.find(_.id == id) foreach { r => detail = r }
-      }
-      put("review", detail.review)
-      put("reviewDetail", detail)
-      put("details", details)
       put("expert", expert)
-      put("ClosureStageId", StageType.Closure)
-      put("levels", entityDao.getAll(classOf[ProjectLevel]))
-      forward()
+
+      val s = OqlBuilder.from(classOf[Stage], "s")
+      s.where("s.stageType =:stageType", new StageType(StageType.Closure))
+      s.where("s.endAt < :now", Instant.now)
+      s.orderBy("s.endAt desc") //查找最后一次的评审记录
+      entityDao.first(s) match
+        case None =>
+          forward("no-project")
+        case Some(stage) =>
+          val builder = OqlBuilder.from(classOf[ClosureReviewDetail], "detail")
+          builder.where("detail.expert = :expert", expert)
+          builder.orderBy("detail.review.project.title")
+          builder.where("detail.review.project.batch=:batch", stage.batch)
+          val details = entityDao.search(builder)
+          if (details.nonEmpty) {
+            var detail = details.head
+            getLong("review.id") foreach { id =>
+              details.find(_.id == id) foreach { r => detail = r }
+            }
+            put("review", detail.review)
+            put("reviewDetail", detail)
+            put("details", details)
+            put("ClosureStageId", StageType.Closure)
+            put("levels", entityDao.getAll(classOf[ProjectLevel]))
+            forward()
+          } else {
+            forward("no-project")
+          }
     }
   }
 

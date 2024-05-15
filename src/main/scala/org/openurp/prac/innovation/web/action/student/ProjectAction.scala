@@ -43,17 +43,24 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
     val query = OqlBuilder.from(classOf[Batch], "b")
     query.where("exists(from b.stages s where :now <= s.endAt and s.stageType=:init)", Instant.now, initialStage)
     val batches = entityDao.search(query)
+    var projects: Seq[Project] = null
     if (batches.nonEmpty) {
       val query = OqlBuilder.from(classOf[Project], "p")
       query.where("p.manager.std.code=:code", user)
       query.where("p.batch=:batch", batches.head)
-      put("projects", entityDao.search(query))
+      projects = entityDao.search(query)
       put("initialStage", batches.head.getStage(initialStage))
     } else {
       val query = OqlBuilder.from(classOf[Project], "p")
       query.where("p.manager.std.code=:code", user)
-      put("projects", entityDao.search(query))
+      projects = entityDao.search(query)
     }
+    if (projects.nonEmpty) {
+      put("initReviewDetails", entityDao.findBy(classOf[InitReviewDetail], "review.project" -> projects).groupBy(_.review.project))
+    } else {
+      put("initReviewDetails", Map.empty)
+    }
+    put("projects", projects)
     put("projectCategories", entityDao.getAll(classOf[ProjectCategory]))
     put("batches", batches)
     forward()

@@ -68,20 +68,34 @@ class InitReviewAction extends ActionSupport, EntityAction[InitReviewDetail], Se
       redirect("index", null)
     } else {
       val expert = expert2.head
-      val builder = OqlBuilder.from(classOf[InitReviewDetail], "detail")
-      builder.where("detail.expert = :expert", expert)
-      //按照标题排序
-      builder.orderBy("detail.review.project.title")
-      val details = entityDao.search(builder)
-      var detail = details.head
-      getLong("detail.id") foreach { id =>
-        details.find(_.id == id) foreach { r => detail = r }
-      }
-      put("detail", detail)
-      put("details", details)
       put("expert", expert)
-      put("InitStageId", StageType.Initial)
-      forward()
+      val s = OqlBuilder.from(classOf[Stage], "s")
+      s.where("s.stageType =:stageType", new StageType(StageType.Initial))
+      s.where("s.endAt < :now", Instant.now)
+      s.orderBy("s.endAt desc")
+      entityDao.first(s) match
+        case None =>
+          forward("no-project")
+        case Some(stage) =>
+          val builder = OqlBuilder.from(classOf[InitReviewDetail], "detail")
+          builder.where("detail.expert = :expert", expert)
+          builder.where("detail.review.project.batch=:batch", stage.batch)
+          builder.orderBy("detail.review.project.title") //按照标题排序
+          val details = entityDao.search(builder)
+
+          if (details.nonEmpty) {
+            var detail: InitReviewDetail = null
+            getLong("detail.id") foreach { id =>
+              details.find(_.id == id) foreach { r => detail = r }
+            }
+            if (detail == null) detail = details.head
+            put("detail", detail)
+            put("details", details)
+            put("InitStageId", StageType.Initial)
+            forward()
+          } else {
+            forward("no-project")
+          }
     }
   }
 
