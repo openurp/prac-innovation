@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="项目推优答辩抽签"]bar.addBack();[/@]
+[@b.toolbar title="项目结项答辩抽签"]bar.addBack();[/@]
 [@b.messages slash="3"/]
 <div class="container-fluid">
 

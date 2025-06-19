@@ -19,8 +19,8 @@ package org.openurp.prac.innovation.web.action.student
 
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.security.Securities
-import org.beangle.web.action.support.{ActionSupport, ServletSupport}
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.support.{ActionSupport, ServletSupport}
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.EntityAction
 import org.openurp.prac.innovation.model.*
 
@@ -32,7 +32,7 @@ class PromotionAction extends ActionSupport, EntityAction[Project], ServletSuppo
   var entityDao: EntityDao = _
 
   def index(): View = {
-    val stateLevel = entityDao.get(classOf[ProjectLevel], ProjectLevel.State)
+    val stateLevel = entityDao.get(classOf[ProjectLevel], ProjectLevel.School)
     put("stateLevel", stateLevel)
     put("promotionStage", new StageType(StageType.PromotionState))
 
@@ -43,7 +43,7 @@ class PromotionAction extends ActionSupport, EntityAction[Project], ServletSuppo
     put("members", members)
 
     val q = OqlBuilder.from(classOf[Stage], "stage")
-    q.where("stage.stageType.id=:stageTypeId", StageType.PromotionState)
+    q.where("stage.stageType.id=:stageTypeId", StageType.Closure)
     q.where(":now between stage.beginAt and stage.endAt", Instant.now)
     val stage = entityDao.search(q).headOption
     put("stage", stage)
@@ -54,7 +54,7 @@ class PromotionAction extends ActionSupport, EntityAction[Project], ServletSuppo
         query.where("p.manager.std.code=:code", Securities.user)
         query.where("p.batch=:batch", s.batch)
         val projects = entityDao.search(query).filter { x =>
-          x.levels.exists(_.level == stateLevel) && !members.exists(_.project == x)
+            x.levels.exists(_.level == stateLevel) && !members.exists(_.project == x)
         }
         put("projects", projects)
     }

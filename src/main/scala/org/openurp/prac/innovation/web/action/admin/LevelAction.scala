@@ -20,8 +20,8 @@ package org.openurp.prac.innovation.web.action.admin
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.doc.transfer.exporter.ExportContext
-import org.beangle.web.action.annotation.ignore
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.annotation.ignore
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.{ExportSupport, RestfulAction}
 import org.openurp.base.model.Department
 import org.openurp.prac.innovation.model.*

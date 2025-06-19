@@ -17,7 +17,7 @@
 
 package org.openurp.prac.innovation.web.action.admin
 
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.{ExportSupport, RestfulAction}
 import org.openurp.prac.innovation.model.Expert
 

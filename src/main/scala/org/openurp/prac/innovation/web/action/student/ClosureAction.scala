@@ -18,18 +18,19 @@
 package org.openurp.prac.innovation.web.action.student
 
 import jakarta.servlet.http.Part
+import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, Operation, OqlBuilder}
 import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
-import org.beangle.web.action.support.{ActionSupport, ServletSupport}
-import org.beangle.web.action.view.View
 import org.beangle.webmvc.support.action.EntityAction
 import org.beangle.webmvc.support.helper.PopulateHelper
+import org.beangle.webmvc.support.{ActionSupport, ServletSupport}
+import org.beangle.webmvc.view.View
 import org.openurp.prac.innovation.model.*
 
 import java.time.Instant
 
-class ClosureAction extends ActionSupport with EntityAction[Project] with ServletSupport with MyProject {
+class ClosureAction extends ActionSupport, EntityAction[Project], ServletSupport, MyProject, Logging {
 
   var entityDao: EntityDao = _
 
@@ -37,7 +38,7 @@ class ClosureAction extends ActionSupport with EntityAction[Project] with Servle
     val user = Securities.user;
     val query = OqlBuilder.from(classOf[Project], "p")
     query.where("p.manager.std.code=:code", user)
-    val projects = entityDao.search(query);
+    val projects = entityDao.search(query)
     put("projects", projects)
     put("closureStage", new StageType(StageType.Closure))
     forward()

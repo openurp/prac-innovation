@@ -51,7 +51,7 @@
         [#assign lastLevel=levels?last/]
         <input type="hidden" name="project.id" value="${project.id}"/>
         [#if lastLevel.level == stateLevel]
-           <button class="btn btn-sm btn-outline-primary" type="button" onclick="return draw_lot(this.form)">拟推荐${lastLevel.awardYear} ${lastLevel.level.name} 答辩抽签</button>
+           <button class="btn btn-sm btn-outline-primary" type="button" onclick="return draw_lot(this.form)">${lastLevel.awardYear}结项 答辩抽签</button>
         [/#if]
       [#else]
         ${(project.level.name)!}

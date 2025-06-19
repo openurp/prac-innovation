@@ -18,8 +18,8 @@
 package org.openurp.prac.innovation.web.action.admin.close
 
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.web.action.annotation.{ignore, mapping, param}
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.annotation.{ignore, mapping, param}
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.{ExportSupport, RestfulAction}
 import org.openurp.base.model.Department
 import org.openurp.code.edu.model.Discipline

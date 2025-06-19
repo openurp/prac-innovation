@@ -18,9 +18,9 @@
 package org.openurp.prac.innovation.web.action.student
 
 import org.beangle.ems.app.EmsApp
-import org.beangle.web.action.context.Params.getLongId
-import org.beangle.web.action.support.ServletSupport
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.context.Params.getLongId
+import org.beangle.webmvc.support.ServletSupport
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.EntityAction
 import org.openurp.prac.innovation.model.{Material, Project, StageType}
 

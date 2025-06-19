@@ -22,8 +22,8 @@ import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.ems.app.EmsApp
 import org.beangle.security.Securities
-import org.beangle.web.action.support.ActionSupport
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.support.ActionSupport
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.EntityAction
 import org.openurp.base.hr.model.Teacher
 import org.openurp.base.std.model.Student
@@ -50,11 +50,11 @@ class ProjectAction extends ActionSupport with EntityAction[Project] with Projec
       query.where("p.batch=:batch", batches.head)
       projects = entityDao.search(query)
       put("initialStage", batches.head.getStage(initialStage))
-    } else {
-      val query = OqlBuilder.from(classOf[Project], "p")
-      query.where("p.manager.std.code=:code", user)
-      projects = entityDao.search(query)
     }
+    val q = OqlBuilder.from(classOf[Project], "p")
+    q.where("p.manager.std.code=:code", user)
+    projects = entityDao.search(q)
+
     if (projects.nonEmpty) {
       put("initReviewDetails", entityDao.findBy(classOf[InitReviewDetail], "review.project" -> projects).groupBy(_.review.project))
     } else {

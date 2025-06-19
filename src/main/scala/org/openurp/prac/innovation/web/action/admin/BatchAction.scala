@@ -19,7 +19,7 @@ package org.openurp.prac.innovation.web.action.admin
 
 import java.time.{Instant, LocalDateTime, ZoneId}
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.RestfulAction
 import org.openurp.starter.web.support.ProjectSupport
 import org.openurp.prac.innovation.model.{Batch, Stage, StageType}

@@ -3,7 +3,7 @@
 [@b.toolbar title="我的项目"]bar.addBack();[/@]
 <div class="container-fluid">
 [@b.messages/]
-[#if batches??&&batches?size==1]
+[#if batches?? && batches?size==1]
 [#assign batch=batches?first]
 <div class="container">
 <div class="jumbotron">
@@ -15,10 +15,17 @@
   [#if initialStage.noticeHref?? && initialStage.noticeHref?length>0]
   <a href="${initialStage.noticeHref}" class="btn btn-info btn-lg" target="_new">查看完整通知</a>
   [/#if]
-  [#if projects?size>0]
+  [#assign batchProjects =[]/]
   [#list projects as project]
-  [@b.a class="btn btn-primary btn-lg" href="!edit?project.id="+project.id role="button" title=project.title?html]进入我的项目[/@]
+    [#if project.batch==batch]
+    [#assign batchProjects = batchProjects + [project]/]
+    [/#if]
   [/#list]
+
+  [#if batchProjects?size>0]
+    [#list batchProjects as project]
+      [@b.a class="btn btn-primary btn-lg" href="!edit?project.id="+project.id role="button" title=project.title?html]进入我的项目[/@]
+    [/#list]
   [#else]
      [#list projectCategories?sort_by("code") as category]
        [@b.a class="btn btn-primary btn-lg" href="!edit?project.batch.id="+batch.id+"&project.category.id=" + category.id role="button"]${category_index+1} ${category.name} 立项[/@]

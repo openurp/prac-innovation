@@ -17,7 +17,7 @@
 
 package org.openurp.prac.innovation.web.action.admin.promotion
 
-import org.beangle.cdi.bind.BindModule
+import org.beangle.commons.cdi.BindModule
 
 class DefaultModule extends BindModule {
 

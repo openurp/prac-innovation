@@ -19,9 +19,9 @@ package org.openurp.prac.innovation.web.action.admin.close
 
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.EmsApp
-import org.beangle.web.action.annotation.ignore
-import org.beangle.web.action.support.ServletSupport
-import org.beangle.web.action.view.View
+import org.beangle.webmvc.annotation.ignore
+import org.beangle.webmvc.support.ServletSupport
+import org.beangle.webmvc.view.View
 import org.beangle.webmvc.support.action.{ExportSupport, RestfulAction}
 import org.openurp.base.model.Department
 import org.openurp.prac.innovation.model.*
